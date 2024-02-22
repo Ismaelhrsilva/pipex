@@ -6,7 +6,7 @@
 #    By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/11 20:08:54 by ishenriq          #+#    #+#              #
-#    Updated: 2024/02/22 18:23:52 by ishenriq         ###   ########.fr        #
+#    Updated: 2024/02/22 19:23:19 by ishenriq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CFLAGS	:= -g3
 CC	:= cc
 PRINTF	:= lib/printf/
 LIBFT	:= lib/libft/
-GNL	:= lib/gnl/
+GNL	:= lib/libft/gnl/
 BUILD_DIR = objects/
 MKDIR  := mkdir -p
 
@@ -49,10 +49,6 @@ printf:
 
 $(NAME): $(OBJS)
 	@$(CC) $(OBJS) $(LDFLAGS) -o $(NAME)
-
-
-bonus:
-	$(call bonus)
 
 clean:
 	@rm -rf $(BUILD_DIR)

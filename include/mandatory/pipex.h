@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:25:14 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/02/22 18:29:30 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/02/22 19:41:20 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 #include <errno.h>      // perror, strerror
 #include <string.h>     // strerror
 #include <unistd.h>     // access
+# include "../lib/libft/libft.h"
+# include "../lib/printf/ft_printf.h"
+# include "../lib/libft/gnl/get_next_line.h"
 
 typedef struct	s_pipex
 {
@@ -28,4 +31,5 @@ typedef struct	s_pipex
 	char	**envp;
 }	t_pipex;
 
+#endif
 
