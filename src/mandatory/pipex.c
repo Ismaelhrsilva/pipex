@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/02/25 17:20:36 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/02/25 17:34:24 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,8 @@ static void	ft_ast(t_node *root)
 	}
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	(void )argc;
-
 	char	*args1[] = {argv[2], NULL};
 	char	*args2[] = {argv[3], NULL};
 
@@ -107,13 +105,13 @@ int	main(void)
 	t_node *cmd2 = create_cmd_node(args2);
 	t_node *pipenode = create_pipe_node(cmd1, cmd2);
 
-	int	intfile = open(argv[1], O_RDONLY);
+	int	infile = open(argv[1], O_RDONLY);
 	if (infile == -1)
 	{
 		perror("open");
 		exit(EXIT_FAILURE);
 	}
-	int	outfile = open(argv[4], O_RDONLY | O_CREATE | O_TRUNC, 0666);
+	int	outfile = open(argv[4], O_RDONLY | O_CREAT | O_TRUNC, 0666);
 	if (outfile == -1)
 	{
 		perror("open");
