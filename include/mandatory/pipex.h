@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:25:14 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/02/25 16:07:48 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/02/25 16:41:13 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,16 @@
 
 typedef enum 
 {
-	NODE_CMD;
-	NODE_PIPE;
+	NODE_CMD = 0,
+	NODE_PIPE
 }	nodetype;
 
 typedef struct s_node
 {
 	nodetype type;
 	char **args;
-	struct t_node	*left;
-	struct t_node	*right;
+	struct s_node	*left;
+	struct s_node	*right;
 }	t_node;
 
 /*typedef struct	s_pipex

@@ -6,13 +6,13 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/02/25 16:25:18 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/02/25 16:41:45 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mandatory/pipex.h"
 
-t_node	*create_cmd_node(char **args)
+static t_node	*create_cmd_node(char **args)
 {
 	t_node	*node;
 
@@ -29,7 +29,7 @@ t_node	*create_cmd_node(char **args)
 	return (node);
 }
 
-t_node	*create_pipe_node(t_node *left, t_node *right)
+static t_node	*create_pipe_node(t_node *left, t_node *right)
 {
 	t_node	*node;
 
@@ -45,16 +45,16 @@ t_node	*create_pipe_node(t_node *left, t_node *right)
 	return (node);
 }
 
-void	free_ast(t_node *root)
+static void	free_ast(t_node *root)
 {
 	if (root == NULL)
 		return ;
 	free_ast(root->left);
-	free_ast(root->rigth);
+	free_ast(root->right);
 	free(root);
 }
 
-void	ft_ast(t_node *root)
+static void	ft_ast(t_node *root)
 {
 	int	pipe_fd[2];
 	pid_t	pid;
@@ -67,12 +67,12 @@ void	ft_ast(t_node *root)
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
-	if (pipe(pipe_fd[2]) == -1)
+	if (pipe(pipe_fd) == -1)
 	{
 		perror("pipe");
 		exit(EXIT_FAILURE);
 	}
-	pid = fork()
+	pid = fork();
 	if (pid == -1)
 	{
 		perror("fork");
@@ -100,9 +100,9 @@ int	main(void)
 	char	*args1[] = {"ls", NULL};
 	char	*args2[] = {"wc", "-l", NULL};
 
-	Node *cmd1 = create_cmd_node(args1);
-	Node *cmd2 = create_cmd_node(args2);
-	Node *pipenode = create_pipe_node(cmd1, cmd2);
+	t_node *cmd1 = create_cmd_node(args1);
+	t_node *cmd2 = create_cmd_node(args2);
+	t_node *pipenode = create_pipe_node(cmd1, cmd2);
 
 	ft_ast(pipenode);
 
