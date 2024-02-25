@@ -6,61 +6,106 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/02/22 20:06:07 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/02/25 16:25:18 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mandatory/pipex.h"
 
-static t_pipex	*init_pipex(void)
+t_node	*create_cmd_node(char **args)
 {
-	static t_pipex	pipex;
+	t_node	*node;
 
-	return (&pipex);
-}
-
-static void	error(char* message, int num)
-{
-	int	size;
-
-	size = ft_strlen(message);
-	write(STDERR_FILENO, message, size);
-	exit(num);
-}
-
-static void	get_envp(t_pipex *pipex)
-{
-	char const *s;
-	char	**split;
-	char	*join;
-	int		i;
-
-	i = 0;
-	s = (char const *)pipex->envp;
-	split = ft_split(s, ':');
-	while (split[0])
+	node = malloc(sizeof(t_node));
+	if (node == NULL)
 	{
-		join = ft_strjoin(split[0], "ls");
-		if(!access(join, F_OK))
-			ft_printf("Sucess");
-		else
-			free(join);
-		i++;
+		perror("Node");
+		exit(1);
+	}
+	node->type = NODE_CMD;
+	node->args = args;
+	node->left = NULL;
+	node->right = NULL;
+	return (node);
+}
+
+t_node	*create_pipe_node(t_node *left, t_node *right)
+{
+	t_node	*node;
+
+	node = malloc(sizeof(t_node));
+	if (node == NULL)
+	{
+		perror("Node");
+		exit(1);
+	}
+	node->type = NODE_PIPE;
+	node->left = left;
+	node->right = right;
+	return (node);
+}
+
+void	free_ast(t_node *root)
+{
+	if (root == NULL)
+		return ;
+	free_ast(root->left);
+	free_ast(root->rigth);
+	free(root);
+}
+
+void	ft_ast(t_node *root)
+{
+	int	pipe_fd[2];
+	pid_t	pid;
+
+	if (root == NULL)
+		return ;
+	if (root->type == NODE_CMD)
+	{
+		execve(root->args[0], root->args, NULL);
+		perror("execve");
+		exit(EXIT_FAILURE);
+	}
+	if (pipe(pipe_fd[2]) == -1)
+	{
+		perror("pipe");
+		exit(EXIT_FAILURE);
+	}
+	pid = fork()
+	if (pid == -1)
+	{
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	if (pid == 0)
+	{
+		close(pipe_fd[1]);
+		dup2(pipe_fd[0], STDIN_FILENO);
+		close(pipe_fd[0]);
+		ft_ast(root->right);
+	}
+	else if (pid > 0)
+	{
+		close(pipe_fd[0]);
+		dup2(pipe_fd[1], STDOUT_FILENO);
+		close(pipe_fd[1]);
+		ft_ast(root->left);
+		wait(NULL);
 	}
 }
 
-int	main(int argc, char **argv, char **envp)
+int	main(void)
 {
-	t_pipex	*pipex;
+	char	*args1[] = {"ls", NULL};
+	char	*args2[] = {"wc", "-l", NULL};
 
-	pipex = init_pipex();
-	//if (argc > 5)
-	//	error("More arguments than needed", 1);
-	//else if (argc < 5)
-	//	error("Less arguments than needed", 1);
-	pipex->argc = argc;
-	pipex->argv = argv;
-	pipex->envp = envp;
-	get_envp(pipex);
+	Node *cmd1 = create_cmd_node(args1);
+	Node *cmd2 = create_cmd_node(args2);
+	Node *pipenode = create_pipe_node(cmd1, cmd2);
+
+	ft_ast(pipenode);
+
+	free_ast(pipenode);
 	return (0);
 }
