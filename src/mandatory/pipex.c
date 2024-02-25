@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/02/25 16:41:45 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/02/25 17:20:36 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static void	ft_ast(t_node *root)
 		return ;
 	if (root->type == NODE_CMD)
 	{
+
 		execve(root->args[0], root->args, NULL);
 		perror("execve");
 		exit(EXIT_FAILURE);
@@ -97,13 +98,30 @@ static void	ft_ast(t_node *root)
 
 int	main(void)
 {
-	char	*args1[] = {"ls", NULL};
-	char	*args2[] = {"wc", "-l", NULL};
+	(void )argc;
+
+	char	*args1[] = {argv[2], NULL};
+	char	*args2[] = {argv[3], NULL};
 
 	t_node *cmd1 = create_cmd_node(args1);
 	t_node *cmd2 = create_cmd_node(args2);
 	t_node *pipenode = create_pipe_node(cmd1, cmd2);
 
+	int	intfile = open(argv[1], O_RDONLY);
+	if (infile == -1)
+	{
+		perror("open");
+		exit(EXIT_FAILURE);
+	}
+	int	outfile = open(argv[4], O_RDONLY | O_CREATE | O_TRUNC, 0666);
+	if (outfile == -1)
+	{
+		perror("open");
+		exit(EXIT_FAILURE);
+	}
+	dup2(infile, STDIN_FILENO);
+	dup2(outfile, STDOUT_FILENO);
+	
 	ft_ast(pipenode);
 
 	free_ast(pipenode);
