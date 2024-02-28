@@ -6,13 +6,13 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/02/25 17:34:24 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/02/28 18:25:49 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mandatory/pipex.h"
 
-static t_node	*create_cmd_node(char **args)
+static t_node	*create_cmd_node(char **args, int t)
 {
 	t_node	*node;
 
@@ -26,10 +26,11 @@ static t_node	*create_cmd_node(char **args)
 	node->args = args;
 	node->left = NULL;
 	node->right = NULL;
+	node->t = t;
 	return (node);
 }
 
-static t_node	*create_pipe_node(t_node *left, t_node *right)
+static t_node	*create_pipe_node(t_node *right, t_node *left)
 {
 	t_node	*node;
 
@@ -61,12 +62,23 @@ static void	ft_ast(t_node *root)
 
 	if (root == NULL)
 		return ;
-	if (root->type == NODE_CMD)
+	if (t == 1)
 	{
-
-		execve(root->args[0], root->args, NULL);
-		perror("execve");
-		exit(EXIT_FAILURE);
+		if (root->type == NODE_CMD)
+		{
+			execve("/usr/bin/ls", char *[] {"ls", "-la", "\0"}, NULL);
+			perror("execve");
+			exit(EXIT_FAILURE);
+		}
+	}
+	if (t == 2)
+	{
+		if (root->type == NODE_CMD)
+		{
+			execve("/usr/bin/cat" char *[] {"cat", "\0"}, NULL);
+			perror("execve");
+			exit(EXIT_FAILURE);
+		}
 	}
 	if (pipe(pipe_fd) == -1)
 	{
@@ -101,8 +113,8 @@ int	main(int argc, char **argv)
 	char	*args1[] = {argv[2], NULL};
 	char	*args2[] = {argv[3], NULL};
 
-	t_node *cmd1 = create_cmd_node(args1);
-	t_node *cmd2 = create_cmd_node(args2);
+	t_node *cmd1 = create_cmd_node(args1, 1);
+	t_node *cmd2 = create_cmd_node(args2, 2);
 	t_node *pipenode = create_pipe_node(cmd1, cmd2);
 
 	int	infile = open(argv[1], O_RDONLY);
