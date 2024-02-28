@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/02/28 18:25:49 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/02/28 19:31:04 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static t_node	*create_pipe_node(t_node *right, t_node *left)
 	node->type = NODE_PIPE;
 	node->left = left;
 	node->right = right;
+	node->t = 0;
+	node->args = NULL;
 	return (node);
 }
 
@@ -62,20 +64,20 @@ static void	ft_ast(t_node *root)
 
 	if (root == NULL)
 		return ;
-	if (t == 1)
+	if (root->t == 2)
 	{
 		if (root->type == NODE_CMD)
 		{
-			execve("/usr/bin/ls", char *[] {"ls", "-la", "\0"}, NULL);
+			execve("/usr/bin/cat", (char *[]) {"cat", NULL}, NULL);
 			perror("execve");
 			exit(EXIT_FAILURE);
 		}
 	}
-	if (t == 2)
+	if (root->t == 1)
 	{
 		if (root->type == NODE_CMD)
 		{
-			execve("/usr/bin/cat" char *[] {"cat", "\0"}, NULL);
+			execve("/usr/bin/ls", (char *[]) {"ls", "-la", NULL}, NULL);
 			perror("execve");
 			exit(EXIT_FAILURE);
 		}
@@ -123,17 +125,24 @@ int	main(int argc, char **argv)
 		perror("open");
 		exit(EXIT_FAILURE);
 	}
-	int	outfile = open(argv[4], O_RDONLY | O_CREAT | O_TRUNC, 0666);
+	int	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (outfile == -1)
 	{
 		perror("open");
 		exit(EXIT_FAILURE);
 	}
-	dup2(infile, STDIN_FILENO);
-	dup2(outfile, STDOUT_FILENO);
-	
-	ft_ast(pipenode);
+	if (dup2(outfile, STDOUT_FILENO) == -1)
+	{
+		perror("dup2");
+		exit(EXIT_FAILURE);
+	}
+	if (dup2(infile, STDIN_FILENO) == -1)
+	{
+		perror("dup2");
+		exit(EXIT_FAILURE);
+	}
 
+	ft_ast(pipenode);
 	free_ast(pipenode);
 	return (0);
 }

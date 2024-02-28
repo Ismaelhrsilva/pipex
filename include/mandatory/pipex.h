@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:25:14 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/02/25 16:41:13 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/02/28 18:27:35 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef enum
 typedef struct s_node
 {
 	nodetype type;
+	int	t;
 	char **args;
 	struct s_node	*left;
 	struct s_node	*right;
