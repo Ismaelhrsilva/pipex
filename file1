@@ -1,4 +1,13 @@
-ismael
-henrique
-da
-silva
+total 60
+drwxr-xr-x  7 ishenriq candidate  4096 Feb 28 19:46 .
+drwxr-xr-x 12 ishenriq candidate  4096 Feb 14 18:42 ..
+-rw-r--r--  1 ishenriq candidate   456 Nov  6 19:31 .gdbinit
+drwxr-xr-x  8 ishenriq candidate  4096 Feb 28 19:43 .git
+-rw-r--r--  1 ishenriq candidate  1977 Feb 22 19:23 Makefile
+-rw-r--r--  1 ishenriq candidate     0 Feb 28 19:46 file1
+-rw-r--r--  1 ishenriq candidate   703 Feb 28 19:43 file2
+drwxr-xr-x  3 ishenriq candidate  4096 Feb 22 18:18 include
+drwxr-xr-x  4 ishenriq candidate  4096 Feb 22 18:18 lib
+drwxr-xr-x  3 ishenriq candidate  4096 Feb 28 19:43 objects
+-rwxr-xr-x  1 ishenriq candidate 19544 Feb 28 19:46 pipex
+drwxr-xr-x  3 ishenriq candidate  4096 Feb 22 19:38 src

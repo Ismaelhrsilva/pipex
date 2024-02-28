@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/02/28 19:31:04 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/02/28 20:32:18 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static t_node	*create_cmd_node(char **args, int t)
 	return (node);
 }
 
-static t_node	*create_pipe_node(t_node *right, t_node *left)
+static t_node	*create_pipe_node(t_node *left, t_node *right)
 {
 	t_node	*node;
 
@@ -57,7 +57,7 @@ static void	free_ast(t_node *root)
 	free(root);
 }
 
-static void	ft_ast(t_node *root)
+static void	ft_ast(t_node *root, char **argv)
 {
 	int	pipe_fd[2];
 	pid_t	pid;
@@ -68,7 +68,7 @@ static void	ft_ast(t_node *root)
 	{
 		if (root->type == NODE_CMD)
 		{
-			execve("/usr/bin/cat", (char *[]) {"cat", NULL}, NULL);
+			execve("/usr/bin/wc", (char *[]) {"wc", "-l", NULL}, NULL);
 			perror("execve");
 			exit(EXIT_FAILURE);
 		}
@@ -95,17 +95,53 @@ static void	ft_ast(t_node *root)
 	}
 	if (pid == 0)
 	{
-		close(pipe_fd[1]);
-		dup2(pipe_fd[0], STDIN_FILENO);
-		close(pipe_fd[0]);
-		ft_ast(root->right);
+		if (root->t == 1)
+		{
+			close(pipe_fd[0]);
+			int	infile = open(argv[1], O_RDONLY);
+			if (infile == -1)
+			{
+				perror("open");
+				exit(EXIT_FAILURE);
+			}
+			if (dup2(infile, STDIN_FILENO) == -1)
+			{
+				perror("dup2");
+				exit(EXIT_FAILURE);
+			}
+			if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
+			{
+				perror("dup2");
+				exit(EXIT_FAILURE);
+			}
+			close(pipe_fd[1]);
+		}
+		ft_ast(root->left, argv);
 	}
 	else if (pid > 0)
 	{
-		close(pipe_fd[0]);
-		dup2(pipe_fd[1], STDOUT_FILENO);
-		close(pipe_fd[1]);
-		ft_ast(root->left);
+		if (root->t == 2)
+		{
+			close(pipe_fd[1]);
+			int	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0666);
+			if (outfile == -1)
+			{
+				perror("open");
+				exit(EXIT_FAILURE);
+			}
+			if (dup2(outfile, STDOUT_FILENO) == -1)
+			{
+				perror("dup2");
+				exit(EXIT_FAILURE);
+			}
+			if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
+			{
+				perror("dup2");
+				exit(EXIT_FAILURE);
+			}
+			close(pipe_fd[0]);
+		}
+		ft_ast(root->right, argv);
 		wait(NULL);
 	}
 }
@@ -119,12 +155,6 @@ int	main(int argc, char **argv)
 	t_node *cmd2 = create_cmd_node(args2, 2);
 	t_node *pipenode = create_pipe_node(cmd1, cmd2);
 
-	int	infile = open(argv[1], O_RDONLY);
-	if (infile == -1)
-	{
-		perror("open");
-		exit(EXIT_FAILURE);
-	}
 	int	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (outfile == -1)
 	{
@@ -136,13 +166,7 @@ int	main(int argc, char **argv)
 		perror("dup2");
 		exit(EXIT_FAILURE);
 	}
-	if (dup2(infile, STDIN_FILENO) == -1)
-	{
-		perror("dup2");
-		exit(EXIT_FAILURE);
-	}
-
-	ft_ast(pipenode);
+	ft_ast(pipenode, argv);
 	free_ast(pipenode);
 	return (0);
 }
