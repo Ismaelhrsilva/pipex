@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:25:14 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/02/29 20:08:06 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/02/29 20:18:34 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ t_node	*create_cmd_node(char **args, int t);
 t_node	*create_pipe_node(t_pipex *pipex);
 void	free_ast(t_node *root);
 void	*init_pipex(void);
+void	left_child(t_pipex *pipex);
+void	right_child(t_pipex *pipex);
 
 #endif
 
