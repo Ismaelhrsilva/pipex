@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/02/28 20:32:18 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/02/28 21:19:16 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	ft_ast(t_node *root, char **argv)
 
 	if (root == NULL)
 		return ;
-	if (root->t == 2)
+	if (root->t == 1)
 	{
 		if (root->type == NODE_CMD)
 		{
@@ -73,7 +73,7 @@ static void	ft_ast(t_node *root, char **argv)
 			exit(EXIT_FAILURE);
 		}
 	}
-	if (root->t == 1)
+	if (root->t == 2)
 	{
 		if (root->type == NODE_CMD)
 		{
@@ -116,12 +116,12 @@ static void	ft_ast(t_node *root, char **argv)
 			}
 			close(pipe_fd[1]);
 		}
-		ft_ast(root->left, argv);
+		ft_ast(root->right, argv);
 	}
 	else if (pid > 0)
 	{
-		if (root->t == 2)
-		{
+		//if (root->t == 2)
+		//{
 			close(pipe_fd[1]);
 			int	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0666);
 			if (outfile == -1)
@@ -140,8 +140,8 @@ static void	ft_ast(t_node *root, char **argv)
 				exit(EXIT_FAILURE);
 			}
 			close(pipe_fd[0]);
-		}
-		ft_ast(root->right, argv);
+		//}
+		ft_ast(root->left, argv);
 		wait(NULL);
 	}
 }
@@ -155,17 +155,6 @@ int	main(int argc, char **argv)
 	t_node *cmd2 = create_cmd_node(args2, 2);
 	t_node *pipenode = create_pipe_node(cmd1, cmd2);
 
-	int	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0666);
-	if (outfile == -1)
-	{
-		perror("open");
-		exit(EXIT_FAILURE);
-	}
-	if (dup2(outfile, STDOUT_FILENO) == -1)
-	{
-		perror("dup2");
-		exit(EXIT_FAILURE);
-	}
 	ft_ast(pipenode, argv);
 	free_ast(pipenode);
 	return (0);
