@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/02/28 21:19:16 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/02/28 21:51:16 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void	ft_ast(t_node *root, char **argv)
 	{
 		if (root->type == NODE_CMD)
 		{
-			execve("/usr/bin/ls", (char *[]) {"ls", "-la", NULL}, NULL);
+			execve("/usr/bin/cat", (char *[]) {"cat", NULL}, NULL);
 			perror("execve");
 			exit(EXIT_FAILURE);
 		}
@@ -95,8 +95,8 @@ static void	ft_ast(t_node *root, char **argv)
 	}
 	if (pid == 0)
 	{
-		if (root->t == 1)
-		{
+		//if (root->t == 2)
+		//{
 			close(pipe_fd[0]);
 			int	infile = open(argv[1], O_RDONLY);
 			if (infile == -1)
@@ -115,7 +115,7 @@ static void	ft_ast(t_node *root, char **argv)
 				exit(EXIT_FAILURE);
 			}
 			close(pipe_fd[1]);
-		}
+		//}
 		ft_ast(root->right, argv);
 	}
 	else if (pid > 0)
@@ -129,12 +129,12 @@ static void	ft_ast(t_node *root, char **argv)
 				perror("open");
 				exit(EXIT_FAILURE);
 			}
-			if (dup2(outfile, STDOUT_FILENO) == -1)
+			if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 			{
 				perror("dup2");
 				exit(EXIT_FAILURE);
 			}
-			if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
+			if (dup2(outfile, STDOUT_FILENO) == -1)
 			{
 				perror("dup2");
 				exit(EXIT_FAILURE);
