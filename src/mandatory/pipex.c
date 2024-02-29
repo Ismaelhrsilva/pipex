@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/02/28 21:52:50 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/02/29 17:44:00 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	ft_ast(t_node *root, char **argv)
 
 	if (root == NULL)
 		return ;
-	if (root->t == 1)
+	if (root->t == 2)
 	{
 		if (root->type == NODE_CMD)
 		{
@@ -73,7 +73,7 @@ static void	ft_ast(t_node *root, char **argv)
 			exit(EXIT_FAILURE);
 		}
 	}
-	if (root->t == 2)
+	if (root->t == 1)
 	{
 		if (root->type == NODE_CMD)
 		{
@@ -113,7 +113,7 @@ static void	ft_ast(t_node *root, char **argv)
 			exit(EXIT_FAILURE);
 		}
 		close(pipe_fd[1]);
-		ft_ast(root->right, argv);
+		ft_ast(root->left, argv);
 	}
 	else if (pid > 0)
 	{
@@ -135,7 +135,7 @@ static void	ft_ast(t_node *root, char **argv)
 			exit(EXIT_FAILURE);
 		}
 		close(pipe_fd[0]);
-		ft_ast(root->left, argv);
+		ft_ast(root->right, argv);
 		wait(NULL);
 	}
 }
