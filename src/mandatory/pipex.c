@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/02/29 19:47:50 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/02/29 20:01:26 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static t_node	*create_cmd_node(char **args, int t)
 	return (node);
 }
 
-static t_node	*create_pipe_node(t_pipex pipex)
+static t_node	*create_pipe_node(t_pipex *pipex)
 {
 	t_node	*node;
 
@@ -57,7 +57,7 @@ static void	free_ast(t_node *root)
 	free(root);
 }
 
-static void	ft_ast(t_node *root, t_pipex pipex)
+static void	ft_ast(t_node *root, t_pipex *pipex)
 {
 	if (root == NULL)
 		return ;
@@ -93,7 +93,7 @@ static void	ft_ast(t_node *root, t_pipex pipex)
 	if (pipex->pid_left == 0)
 	{
 		close(pipex->pipe_fd[0]);
-		pipex->infile = open(argv[1], O_RDONLY);
+		pipex->infile = open(pipex->argv[1], O_RDONLY);
 		if (pipex->infile == -1)
 		{
 			perror("open");
@@ -140,7 +140,7 @@ static void	ft_ast(t_node *root, t_pipex pipex)
 				exit(EXIT_FAILURE);
 			}
 			close(pipex->pipe_fd[0]);
-			ft_ast(pipex->root->right, argv);
+			ft_ast(root->right, pipex);
 		}
 		if (pipex->pid_right > 0)
 		{
@@ -150,7 +150,7 @@ static void	ft_ast(t_node *root, t_pipex pipex)
 	}
 }
 
-static	*init_pipex(void)
+static void	*init_pipex(void)
 {
 	static	t_pipex	pipex;
 
@@ -161,7 +161,7 @@ int	main(int argc, char **argv)
 {
 	char	*args1[] = {argv[2], NULL};
 	char	*args2[] = {argv[3], NULL};
-	t_pipex	pipex;
+	t_pipex	*pipex;
 
 	pipex = init_pipex();
 	pipex->cmd1 = create_cmd_node(args1, 1);
