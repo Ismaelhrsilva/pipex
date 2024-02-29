@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/02/29 17:44:00 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/02/29 17:51:24 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ static void	free_ast(t_node *root)
 static void	ft_ast(t_node *root, char **argv)
 {
 	int	pipe_fd[2];
-	pid_t	pid;
+	pid_t	pid_left;
+	pid_t	pid_right;
 
 	if (root == NULL)
 		return ;
@@ -87,13 +88,13 @@ static void	ft_ast(t_node *root, char **argv)
 		perror("pipe");
 		exit(EXIT_FAILURE);
 	}
-	pid = fork();
-	if (pid == -1)
+	pid_left = fork();
+	if (pid_left == -1)
 	{
 		perror("fork");
 		exit(EXIT_FAILURE);
 	}
-	if (pid == 0)
+	if (pid_left == 0)
 	{
 		close(pipe_fd[0]);
 		int	infile = open(argv[1], O_RDONLY);
@@ -115,27 +116,40 @@ static void	ft_ast(t_node *root, char **argv)
 		close(pipe_fd[1]);
 		ft_ast(root->left, argv);
 	}
-	else if (pid > 0)
+	else if (pid_left > 0)
 	{
-		close(pipe_fd[1]);
-		int	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0666);
-		if (outfile == -1)
+		pid_right = fork();
+		if (pid_right == -1)
 		{
-			perror("open");
+			perror("fork");
 			exit(EXIT_FAILURE);
 		}
-		if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
+		if (pid_right == 0)
 		{
-			perror("dup2");
-			exit(EXIT_FAILURE);
+			close(pipe_fd[1]);
+			int	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0666);
+			if (outfile == -1)
+			{
+				perror("open");
+				exit(EXIT_FAILURE);
+			}
+			if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
+			{
+				perror("dup2");
+				exit(EXIT_FAILURE);
+			}
+			if (dup2(outfile, STDOUT_FILENO) == -1)
+			{
+				perror("dup2");
+				exit(EXIT_FAILURE);
+			}
+			close(pipe_fd[0]);
+			ft_ast(root->right, argv);
 		}
-		if (dup2(outfile, STDOUT_FILENO) == -1)
+		if (pid_right > 0)
 		{
-			perror("dup2");
-			exit(EXIT_FAILURE);
+			ft_printf("Tratamentos aqui");
 		}
-		close(pipe_fd[0]);
-		ft_ast(root->right, argv);
 		wait(NULL);
 	}
 }
