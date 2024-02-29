@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/02/29 20:05:34 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/02/29 20:08:22 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,6 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 		}
 		wait(NULL);
 	}
-}
-
-static void	*init_pipex(void)
-{
-	static	t_pipex	pipex;
-
-	return (&pipex);
 }
 
 int	main(int argc, char **argv)
