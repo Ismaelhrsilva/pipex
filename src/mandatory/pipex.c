@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/02/29 21:51:55 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/02/29 22:08:21 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static void	ft_envp(t_pipex *pipex, int argv, int cmd)
 	{
 		if (ft_strncmp(pipex->envp[i], "PATH=", 5) == 0)
 		{
-			pipex->path = pipex->envp[i];
+			pipex->path = (pipex->envp[i] + 6);
 			break ;
 		}
 		else
@@ -93,8 +93,10 @@ static void	ft_envp(t_pipex *pipex, int argv, int cmd)
 	split = ft_split(pipex->path, ':');
 	while (split[i] != NULL)
 	{
+		ft_printf("split: %s\n", split[i]);
 		f_bar = ft_strjoin(split[i], "/");
 		filename_access = ft_strjoin(f_bar, pipex->argv[argv]);
+		ft_printf("filename_access: %s\n", filename_access);
 		if (access(filename_access, F_OK | X_OK) == 0)
 			pipex->filename[cmd] = filename_access;
 		else
