@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/02/29 21:39:07 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/02/29 21:45:53 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 	{
 		if (root->type == NODE_CMD)
 		{
-			execve("/usr/bin/wc", (char *[]) {"wc", "-l", NULL}, NULL);
+			execve(pipex->filename[2], pipex->cmd2_argv, pipex->envp);
 			perror("execve");
 			exit(EXIT_FAILURE);
 		}
@@ -29,7 +29,7 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 	{
 		if (root->type == NODE_CMD)
 		{
-			execve("/usr/bin/cat", (char *[]) {"cat", NULL}, NULL);
+			execve(pipex->filename[1], pipex->cmd1_argv, pipex->envp);
 			perror("execve");
 			exit(EXIT_FAILURE);
 		}
@@ -71,7 +71,7 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 	}
 }
 
-static void	ft_envp(t_pipex pipex, int argv)
+static void	ft_envp(t_pipex pipex, int argv, int cmd)
 {
 	int		i;
 	char	**split;
@@ -96,7 +96,7 @@ static void	ft_envp(t_pipex pipex, int argv)
 		f_bar = ft_strjoin(split[i], '/');
 		filename_access = ft_strjoin(f_bar, pipex->argv[argv])
 		if (access(filename_access, F_OK | X_OK) == 0)
-			pipex->filename = filename_access;
+			pipex->filename[cmd] = filename_access;
 		else
 			i++;
 		free(f_bar);
@@ -113,18 +113,17 @@ static void get_cmd(t_pipex pipex)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*args1[] = {argv[2], NULL};
-	char	*args2[] = {argv[3], NULL};
 	t_pipex	*pipex;
 
 	pipex = init_pipex();
 	pipex->envp = envp;
-	ft_envp();
-
-	pipex->cmd1 = create_cmd_node(args1, 1);
-	pipex->cmd2 = create_cmd_node(args2, 2);
-	pipex->pipenode = create_pipe_node(pipex);
+	ft_envp(pipex, 2, 1);
+	ft_envp(pipex, 3, 2);
 	pipex->argv = argv;
+	get_cmd();
+	pipex->cmd1 = create_cmd_node(pipex->cmd1_argv, 1);
+	pipex->cmd2 = create_cmd_node(pipex->cmd1_argv, 2);
+	pipex->pipenode = create_pipe_node(pipex);
 
 	ft_ast(pipex->pipenode, pipex);
 	free_ast(pipex->pipenode);
