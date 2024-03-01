@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/02/29 21:45:53 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/02/29 21:51:55 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 	{
 		if (root->type == NODE_CMD)
 		{
-			execve(pipex->filename[2], pipex->cmd2_argv, pipex->envp);
+			execve(pipex->filename[1], pipex->cmd2_argv, pipex->envp);
 			perror("execve");
 			exit(EXIT_FAILURE);
 		}
@@ -29,7 +29,7 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 	{
 		if (root->type == NODE_CMD)
 		{
-			execve(pipex->filename[1], pipex->cmd1_argv, pipex->envp);
+			execve(pipex->filename[0], pipex->cmd1_argv, pipex->envp);
 			perror("execve");
 			exit(EXIT_FAILURE);
 		}
@@ -71,7 +71,7 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 	}
 }
 
-static void	ft_envp(t_pipex pipex, int argv, int cmd)
+static void	ft_envp(t_pipex *pipex, int argv, int cmd)
 {
 	int		i;
 	char	**split;
@@ -81,7 +81,7 @@ static void	ft_envp(t_pipex pipex, int argv, int cmd)
 	i = 0;
 	while (pipex->envp[i] != NULL)
 	{
-		if (ft_strncmp(pipex->envp[i], "PATH=", 5) = 0)
+		if (ft_strncmp(pipex->envp[i], "PATH=", 5) == 0)
 		{
 			pipex->path = pipex->envp[i];
 			break ;
@@ -93,8 +93,8 @@ static void	ft_envp(t_pipex pipex, int argv, int cmd)
 	split = ft_split(pipex->path, ':');
 	while (split[i] != NULL)
 	{
-		f_bar = ft_strjoin(split[i], '/');
-		filename_access = ft_strjoin(f_bar, pipex->argv[argv])
+		f_bar = ft_strjoin(split[i], "/");
+		filename_access = ft_strjoin(f_bar, pipex->argv[argv]);
 		if (access(filename_access, F_OK | X_OK) == 0)
 			pipex->filename[cmd] = filename_access;
 		else
@@ -102,10 +102,10 @@ static void	ft_envp(t_pipex pipex, int argv, int cmd)
 		free(f_bar);
 		free(filename_access);
 	}
-	free(split)
+	free(split);
 }
 
-static void get_cmd(t_pipex pipex)
+static void get_cmd(t_pipex *pipex)
 {
 	pipex->cmd1_argv = ft_split(pipex->argv[2], ' ');	
 	pipex->cmd2_argv = ft_split(pipex->argv[3], ' ');	
@@ -117,10 +117,10 @@ int	main(int argc, char **argv, char **envp)
 
 	pipex = init_pipex();
 	pipex->envp = envp;
-	ft_envp(pipex, 2, 1);
-	ft_envp(pipex, 3, 2);
+	ft_envp(pipex, 2, 0);
+	ft_envp(pipex, 3, 1);
 	pipex->argv = argv;
-	get_cmd();
+	get_cmd(pipex);
 	pipex->cmd1 = create_cmd_node(pipex->cmd1_argv, 1);
 	pipex->cmd2 = create_cmd_node(pipex->cmd1_argv, 2);
 	pipex->pipenode = create_pipe_node(pipex);
