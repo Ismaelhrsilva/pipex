@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:25:14 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/03 18:59:13 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/03 19:36:46 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	free_ast(t_node *root);
 void	*init_pipex(void);
 void	left_child(t_pipex *pipex);
 void	right_child(t_pipex *pipex);
+void	ft_error(char *exec, char *message, int status);
 
 #endif
 
