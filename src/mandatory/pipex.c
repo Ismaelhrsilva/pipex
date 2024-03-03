@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/02/29 22:08:21 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/03 15:47:25 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,13 @@ static void	ft_envp(t_pipex *pipex, int argv, int cmd)
 	split = ft_split(pipex->path, ':');
 	while (split[i] != NULL)
 	{
-		ft_printf("split: %s\n", split[i]);
+		//ft_printf("split: %s\n", split[i]);
 		f_bar = ft_strjoin(split[i], "/");
 		filename_access = ft_strjoin(f_bar, pipex->argv[argv]);
-		ft_printf("filename_access: %s\n", filename_access);
+		//ft_printf("filename_access: %s\n", filename_access);
 		if (access(filename_access, F_OK | X_OK) == 0)
 			pipex->filename[cmd] = filename_access;
-		else
-			i++;
+		i++;
 		free(f_bar);
 		free(filename_access);
 	}
@@ -119,9 +118,9 @@ int	main(int argc, char **argv, char **envp)
 
 	pipex = init_pipex();
 	pipex->envp = envp;
-	ft_envp(pipex, 2, 0);
-	ft_envp(pipex, 3, 1);
 	pipex->argv = argv;
+	ft_envp(pipex, 1, 0);
+	ft_envp(pipex, 2, 1);
 	get_cmd(pipex);
 	pipex->cmd1 = create_cmd_node(pipex->cmd1_argv, 1);
 	pipex->cmd2 = create_cmd_node(pipex->cmd1_argv, 2);
