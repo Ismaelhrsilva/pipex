@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/03 16:40:02 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/03 19:06:12 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,13 @@ static void	ft_envp(t_pipex *pipex, char *exec, int cmd)
 
 static void get_cmd(t_pipex *pipex)
 {
-	pipex->cmd1_argv = ft_split(pipex->argv[2], ' ');	
-	pipex->cmd2_argv = ft_split(pipex->argv[3], ' ');	
+	char	**cmd1;
+	char	**cmd2;
+
+	ft_split_quote(ft_strdup(pipex->argv[2]), &cmd1);
+	ft_split_quote(ft_strdup(pipex->argv[3]), &cmd2);
+	pipex->cmd1_argv = cmd1;
+	pipex->cmd2_argv = cmd2;
 }
 
 int	main(int argc, char **argv, char **envp)

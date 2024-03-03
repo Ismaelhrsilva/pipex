@@ -6,7 +6,7 @@
 #    By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/11 20:55:32 by ishenriq          #+#    #+#              #
-#    Updated: 2024/01/04 19:27:44 by ishenriq         ###   ########.org.br    #
+#    Updated: 2024/03/03 18:45:54 by ishenriq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,9 @@ ft_lstiter_bonus.c \
 ft_lstlast_bonus.c \
 ft_lstmap_bonus.c \
 ft_lstnew_bonus.c \
-ft_lstsize_bonus.c
+ft_lstsize_bonus.c \
+ft_split_quote.c \
+ft_strrplc.c
 
 INCLUDES = ./ ./gnl
 
