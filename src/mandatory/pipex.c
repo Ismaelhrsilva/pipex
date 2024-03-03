@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/03 15:47:25 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:40:02 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 	}
 }
 
-static void	ft_envp(t_pipex *pipex, int argv, int cmd)
+static void	ft_envp(t_pipex *pipex, char *exec, int cmd)
 {
 	int		i;
 	char	**split;
@@ -93,15 +93,20 @@ static void	ft_envp(t_pipex *pipex, int argv, int cmd)
 	split = ft_split(pipex->path, ':');
 	while (split[i] != NULL)
 	{
-		//ft_printf("split: %s\n", split[i]);
 		f_bar = ft_strjoin(split[i], "/");
-		filename_access = ft_strjoin(f_bar, pipex->argv[argv]);
-		//ft_printf("filename_access: %s\n", filename_access);
+		filename_access = ft_strjoin(f_bar, exec);
 		if (access(filename_access, F_OK | X_OK) == 0)
+		{
 			pipex->filename[cmd] = filename_access;
+			free(f_bar);
+			break ;
+		}
+		else
+		{	
+			free(f_bar);
+			free(filename_access);
+		}
 		i++;
-		free(f_bar);
-		free(filename_access);
 	}
 	free(split);
 }
@@ -119,11 +124,11 @@ int	main(int argc, char **argv, char **envp)
 	pipex = init_pipex();
 	pipex->envp = envp;
 	pipex->argv = argv;
-	ft_envp(pipex, 1, 0);
-	ft_envp(pipex, 2, 1);
 	get_cmd(pipex);
+	ft_envp(pipex, pipex->cmd1_argv[0], 0);
+	ft_envp(pipex, pipex->cmd2_argv[0], 1);
 	pipex->cmd1 = create_cmd_node(pipex->cmd1_argv, 1);
-	pipex->cmd2 = create_cmd_node(pipex->cmd1_argv, 2);
+	pipex->cmd2 = create_cmd_node(pipex->cmd2_argv, 2);
 	pipex->pipenode = create_pipe_node(pipex);
 
 	ft_ast(pipex->pipenode, pipex);
