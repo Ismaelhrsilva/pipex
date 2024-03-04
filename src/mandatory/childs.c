@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/03 20:09:41 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/03 20:33:11 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@ void	left_child(t_pipex *pipex)
 	close(pipex->pipe_fd[0]);
 	pipex->infile = open(pipex->argv[1], O_RDONLY);
 	if (pipex->infile == -1)
-	{
-		perror("open");
-		exit(EXIT_FAILURE);
-	}
+		ft_error("no such file or directory", pipex->cmd1_argv[0], 127);
 	if (dup2(pipex->infile, STDIN_FILENO) == -1)
 	{
 		perror("dup2");
