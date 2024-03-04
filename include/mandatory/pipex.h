@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:25:14 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/03 19:48:42 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:05:56 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct	s_pipex
 	t_node	*cmd1;
 	t_node	*cmd2;
 	t_node	*pipenode;
+	int	status;
 }	t_pipex;
 
 t_node	*create_cmd_node(char **args, int t);
@@ -66,7 +67,7 @@ void	free_ast(t_node *root);
 void	*init_pipex(void);
 void	left_child(t_pipex *pipex);
 void	right_child(t_pipex *pipex);
-void	ft_error(char *exec, char *message, int status);
+void	ft_error(t_pipex *pipex, char *exec, char *message, int status);
 void	get_cmd(t_pipex *pipex);
 void	ft_envp(t_pipex *pipex, char *exec, int cmd);
 

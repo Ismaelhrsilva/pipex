@@ -24,6 +24,7 @@ mkdir -p objects/src/mandatory/
 Compiling: pipex.cmkdir -p objects/src/mandatory/
 Compiling: ft_ast_utils.cmkdir -p objects/src/mandatory/
 Compiling: childs.cmkdir -p objects/src/mandatory/
+Compiling: args.cmkdir -p objects/src/mandatory/
 Compiling: utils.c
 [0;95mMANDATORY[0m
 
@@ -35,32 +36,32 @@ Compiling: utils.c
 [0;93m02. Invalid infile and first command:[0m
 [0;92m< a ./Makefile | grep b > /dev/null[0m
 1
-Tratamentos aqui0
+0
 
 [0;93m03. Invalid infile and first command:[0m
 [0;92m< a a | grep b > /dev/null[0m
 1
-Tratamentos aqui0
+0
 
 [0;93m04. Invalid infile and secound command:[0m
 [0;92m< a grep b | ./Makefile > /dev/null[0m
 126
-Tratamentos aqui0
+0
 
 [0;93m05. Invalid infile and secound command:[0m
 [0;92m< a grep b | a > /dev/null[0m
 127
-Tratamentos aqui0
+0
 
 [0;93m06. Get banana from file to terminal :[0m
 [0;92m< c grep a | grep b > /dev/tty[0m
 0
-Tratamentos aqui0
+0
 
 [0;93m07. Get bonono from file to terminal:[0m
 [0;92m< c grep a | tr 'a' 'o' > /dev/tty[0m
 0
-Tratamentos aqui0
+0
 
 [0;93m08. Get a and transform to o and get from file:[0m
 [0;92m< c grep a | tr 'a' 'o' > b && cat b[0m
@@ -69,7 +70,7 @@ bonono
 moço
 pero
 uvo
-Tratamentos aqui0
+0
 bonono
 moço
 pero
@@ -79,81 +80,83 @@ uvo
 [0;92m< c grep a | wc -l > b && cat b[0m
 0
 4
-Tratamentos aqui0
+0
 4
 
 [0;93m10. Get a and count words:[0m
 [0;92m< c grep a | wc -w > b && cat b[0m
 0
 4
-Tratamentos aqui0
+0
 4
 
 [0;93m11. Get list files and count lines:[0m
 [0;92m< c ls -l | wc -l > b && cat b[0m
 0
-14
-Tratamentos aqui0
-14
+17
+0
+17
 
 [0;93m12. Get list and words that start with -rw-:[0m
 [0;92m< a ls -l | grep ^-rw- > b && cat b[0m
 0
--rw-r--r-- 1 ishenriq candidate     0 Mar  3 19:15 b
--rw-r--r-- 1 ishenriq candidate    30 Mar  3 19:14 c
--rw-r--r-- 1 ishenriq candidate     3 Mar  3 19:15 d
--rw-r--r-- 1 ishenriq candidate    55 Mar  3 19:08 file1
--rw-r--r-- 1 ishenriq candidate    32 Mar  3 19:10 file2
+-rw-r--r-- 1 ishenriq candidate     0 Mar  4 14:40 b
+-rw-r--r-- 1 ishenriq candidate     0 Mar  4 14:19 bb
+-rw-r--r-- 1 ishenriq candidate    30 Mar  4 14:40 c
+-rw-r--r-- 1 ishenriq candidate     3 Mar  4 14:19 ccc
+-rw-r--r-- 1 ishenriq candidate     3 Mar  4 14:40 d
+-rw-r--r-- 1 ishenriq candidate     2 Mar  4 14:38 file2
 -rw-r--r-- 1 ishenriq candidate  1977 Feb 22 19:23 Makefile
--rw-r--r-- 1 ishenriq candidate  4781 Mar  3 19:15 rogernet
-Tratamentos aqui0
--rw-r--r-- 1 ishenriq candidate   393 Mar  3 19:15 b
--rw-r--r-- 1 ishenriq candidate    30 Mar  3 19:14 c
--rw-r--r-- 1 ishenriq candidate     0 Mar  3 19:15 d
--rw-r--r-- 1 ishenriq candidate    55 Mar  3 19:08 file1
--rw-r--r-- 1 ishenriq candidate    32 Mar  3 19:10 file2
+-rw-r--r-- 1 ishenriq candidate  4670 Mar  4 14:40 rogernet
+0
+-rw-r--r-- 1 ishenriq candidate   445 Mar  4 14:40 b
+-rw-r--r-- 1 ishenriq candidate     0 Mar  4 14:19 bb
+-rw-r--r-- 1 ishenriq candidate    30 Mar  4 14:40 c
+-rw-r--r-- 1 ishenriq candidate     3 Mar  4 14:19 ccc
+-rw-r--r-- 1 ishenriq candidate     0 Mar  4 14:40 d
+-rw-r--r-- 1 ishenriq candidate     2 Mar  4 14:38 file2
 -rw-r--r-- 1 ishenriq candidate  1977 Feb 22 19:23 Makefile
--rw-r--r-- 1 ishenriq candidate  5192 Mar  3 19:15 rogernet
+-rw-r--r-- 1 ishenriq candidate  5117 Mar  4 14:40 rogernet
 
 [0;93m13. Get list and directories:[0m
 [0;92m< a ls -la | grep ^d > b && cat b[0m
 0
-drwxr-xr-x  7 ishenriq candidate  4096 Mar  3 19:15 .
+drwxr-xr-x  7 ishenriq candidate  4096 Mar  4 14:40 .
 drwxr-xr-x 12 ishenriq candidate  4096 Feb 14 18:42 ..
-drwxr-xr-x  8 ishenriq candidate  4096 Mar  3 19:14 .git
+drwxr-xr-x  8 ishenriq candidate  4096 Mar  4 14:40 .git
 drwxr-xr-x  3 ishenriq candidate  4096 Feb 22 18:18 include
 drwxr-xr-x  4 ishenriq candidate  4096 Feb 22 18:18 lib
-drwxr-xr-x  3 ishenriq candidate  4096 Mar  3 19:14 objects
+drwxr-xr-x  3 ishenriq candidate  4096 Mar  4 14:40 objects
 drwxr-xr-x  3 ishenriq candidate  4096 Feb 22 19:38 src
-Tratamentos aqui0
-drwxr-xr-x  7 ishenriq candidate  4096 Mar  3 19:15 .
+0
+drwxr-xr-x  7 ishenriq candidate  4096 Mar  4 14:40 .
 drwxr-xr-x 12 ishenriq candidate  4096 Feb 14 18:42 ..
-drwxr-xr-x  8 ishenriq candidate  4096 Mar  3 19:14 .git
+drwxr-xr-x  8 ishenriq candidate  4096 Mar  4 14:40 .git
 drwxr-xr-x  3 ishenriq candidate  4096 Feb 22 18:18 include
 drwxr-xr-x  4 ishenriq candidate  4096 Feb 22 18:18 lib
-drwxr-xr-x  3 ishenriq candidate  4096 Mar  3 19:14 objects
+drwxr-xr-x  3 ishenriq candidate  4096 Mar  4 14:40 objects
 drwxr-xr-x  3 ishenriq candidate  4096 Feb 22 19:38 src
 
 [0;93m14. Get the whole path:[0m
 [0;92m< a /usr/bin/grep a | /usr/bin/wc -w > b && cat b[0m
 0
 4
-Tratamentos aqui0
+0
 
 [0;93m15. Get the whole path, first invalid:[0m
 [0;92m< a /usr/bin/grepp a | /usr/bin/wc -w > b && cat b[0m
 0
 0
-Tratamentos aqui0
+0
 
 [0;93m16. Get the whole path, secound invalid:[0m
 [0;92m< a /usr/bin/grep a | /usr/bin/wcc -w > b && cat b[0m
 127
-Tratamentos aqui0
+0
 
 [0;93m17. No parameters:[0m
 [0;92m./pipex[0m
-Tratamentos aqui0
+0
 
 [0;93m18. One arguments:[0m
 [0;92m./pipex c[0m
@@ -165,78 +168,78 @@ Tratamentos aqui0
 
 [0;93m20. Three argumets:[0m
 [0;92m./pipex c grep\ a grep\ b[0m
-Tratamentos aqui0
+0
 
 [0;93m21. Five arguments:[0m
 [0;92m./pipex c grep\ a grep\ b grep\ c d[0m
-Tratamentos aqui0
+0
 
 [0;93m22. Input file no permition:[0m
 [0;92m< a grep a | grep b > b && cat b[0m
 1
-Tratamentos aqui0
+0
 
 [0;93m23. Input file no permition:[0m
 [0;92m< a grep a | grep b > b[0m
 1
-Tratamentos aqui0
+0
 
 [0;93m24. Null first command:[0m
 [0;92m< a "" | grep b > b && cat b[0m
 1
-Tratamentos aqui0
+0
 
 [0;93m25. Null secound command:[0m
 [0;92m< a grep a | "" > b && cat b[0m
 127
-Tratamentos aqui0
+0
 
 [0;93m26. Two null commands:[0m
 [0;92m< a "" | "" > b && cat b[0m
 127
-Tratamentos aqui0
+0
 
 [0;93m27. Two null commands and no permition files:[0m
 [0;92m< a "" | "" > b[0m
 1
-Tratamentos aqui0
+0
 
 [0;93m28. Secound command is a directory.[0m
 [0;92m< a ./folder/ | cat > b[0m
 126
-Tratamentos aqui0
+0
 
 [0;93m29. First command is a directory.[0m
 [0;92m< a ./folder/ | cat > b[0m
 0
-Tratamentos aqui0
+0
 
 [0;93m30. Both commands are directories.[0m
 [0;92m< a ./folder/ | ./folder/ > b[0m
 126
-Tratamentos aqui0
+0
 
 [0;93m31. Both commands are directories with first slash.[0m
 [0;92m< a ./folder | ./folder > b[0m
 126
-Tratamentos aqui0
+0
 
 [0;93m32. Both commands are directories with last slash.[0m
 [0;92m< a folder/ | folder/ > b[0m
 126
-Tratamentos aqui0
+0
 
 [0;93m33. Both commands are directories without slash.[0m
 [0;92m< a folder | folder > b[0m
 127
-Tratamentos aqui0
+0
 
 [0;93m34. Test some spaces.[0m
 [0;92m< a grep            ^d | tr      ' '         'o'  > b[0m
 0
-Tratamentos aqui0
+0
 
 [0;93m35. Something unusual.[0m
 [0;92m< /dev/urandom cat | head -1 > b[0m
 0
-Tratamentos aqui0
+0
