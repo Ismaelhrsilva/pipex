@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/04 18:20:27 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/04 19:27:11 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 	{
 		if (!WIFEXITED(status_left))
 		{
-			waitpid(pipex->pid_left, &status_left, 0);
-			ft_printf("%d\n", WEXITSTATUS(status_left));
+			waitpid(pipex->pid_left, &status_left, WNOHANG | WUNTRACED);
+			//ft_printf("%d\n", WEXITSTATUS(status_left));
 			exit(WEXITSTATUS(status_left));
 		}
 		pipex->pid_right = fork();
@@ -64,10 +64,10 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 		if (pipex->pid_right > 0)
 		{
 			ft_printf("%d\n", WEXITSTATUS(status_right));
-			waitpid(pipex->pid_right, &status_right, 0);
+			waitpid(pipex->pid_right, &status_right, WNOHANG | WUNTRACED);
 			if (!WIFEXITED(status_right))
 			{
-				ft_printf("%d\n", WEXITSTATUS(status_right));
+				//ft_printf("%d\n", WEXITSTATUS(status_right));
 				exit(WEXITSTATUS(status_right));
 			}
 			else
