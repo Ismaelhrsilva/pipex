@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/04 17:12:14 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/04 17:52:17 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 {
 	int	status_left;
 	int	status_right;
+
 	if (root == NULL)
 		return ;
 	if (root->t == 2)
@@ -46,6 +47,12 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 	}
 	if (pipex->pid_left > 0)
 	{
+		if (!WIFEXITED(status_left))
+		{
+			waitpid(pipex->pid_left, &status_left, 0);
+			ft_printf("%d\n", WEXITSTATUS(status_left));
+			exit(WEXITSTATUS(status_left));
+		}
 		pipex->pid_right = fork();
 		if (pipex->pid_right == -1)
 			ft_error(pipex, "Fork", "Fork", 1);
@@ -56,18 +63,14 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 		}
 		if (pipex->pid_right > 0)
 		{
-			waitpid(pipex->pid_left, &status_left, 0);
-			if (WIFEXITED(status_left))
-			{
-				//ft_printf("%d\n", WEXITSTATUS(status_left));
-				exit(WEXITSTATUS(status_left));
-			}
 			waitpid(pipex->pid_right, &status_right, 0);
-			if (WIFEXITED(status_right))
+			if (!WIFEXITED(status_right))
 			{
-				//ft_printf("%d\n", WEXITSTATUS(status_right));
+				ft_printf("%d\n", WEXITSTATUS(status_right));
 				exit(WEXITSTATUS(status_right));
 			}
+			else
+				exit(WEXITSTATUS(status_right));
 		}
 		//wait(NULL);
 	}
