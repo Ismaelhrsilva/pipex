@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/04 15:06:40 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/04 16:56:23 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static void	ft_ast(t_node *root, t_pipex *pipex)
 {
+	int	status_left;
+	int	status_right;
 	if (root == NULL)
 		return ;
 	if (root->t == 2)
@@ -54,9 +56,20 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 		}
 		if (pipex->pid_right > 0)
 		{
-			exit(pipex->status);
+			waitpid(pipex->pid_left, &status_left, 0);
+			if (WIFEXITED(status_left))
+			{
+				ft_printf("%d\n", WEXITSTATUS(status_left));
+				exit(WEXITSTATUS(status_left));
+			}
+			waitpid(pipex->pid_right, &status_right, 0);
+			if (WIFEXITED(status_right))
+			{
+				ft_printf("%d\n", WEXITSTATUS(status_right));
+				exit(WEXITSTATUS(status_right));
+			}
 		}
-		wait(NULL);
+		//wait(NULL);
 	}
 }
 
