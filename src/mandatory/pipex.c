@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/04 19:27:11 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/04 19:36:16 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,6 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 	}
 	if (pipex->pid_left > 0)
 	{
-		if (!WIFEXITED(status_left))
-		{
-			waitpid(pipex->pid_left, &status_left, WNOHANG | WUNTRACED);
-			//ft_printf("%d\n", WEXITSTATUS(status_left));
-			exit(WEXITSTATUS(status_left));
-		}
 		pipex->pid_right = fork();
 		if (pipex->pid_right == -1)
 			ft_error(pipex, "Fork", "Fork", 1);
@@ -63,19 +57,10 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 		}
 		if (pipex->pid_right > 0)
 		{
-			ft_printf("%d\n", WEXITSTATUS(status_right));
-			waitpid(pipex->pid_right, &status_right, WNOHANG | WUNTRACED);
+			waitpid(-1, &status_right, WNOHANG | WUNTRACED);
 			if (!WIFEXITED(status_right))
-			{
-				//ft_printf("%d\n", WEXITSTATUS(status_right));
 				exit(WEXITSTATUS(status_right));
-			}
-			else
-			{
-				exit(0);
-			}
 		}
-		//wait(NULL);
 	}
 }
 
@@ -84,6 +69,8 @@ int	main(int argc, char **argv, char **envp)
 	t_pipex	*pipex;
 
 	pipex = init_pipex();
+	if (argc != 4)
+		ft_error(pipex, "Expected", "./pipex <infile> <cmd1> <cmd2> <oufile>", 1);
 	pipex->envp = envp;
 	pipex->argv = argv;
 	get_cmd(pipex);
