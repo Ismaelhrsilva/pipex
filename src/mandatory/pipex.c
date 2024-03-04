@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/04 19:36:16 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/04 20:33:20 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 static void	ft_ast(t_node *root, t_pipex *pipex)
 {
-	int	status_left;
-	int	status_right;
+	int	status;
 
 	if (root == NULL)
 		return ;
@@ -45,23 +44,18 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 		left_child(pipex);
 		ft_ast(root->left, pipex);
 	}
-	if (pipex->pid_left > 0)
+	pipex->pid_right = fork();
+	if (pipex->pid_right == -1)
+		ft_error(pipex, "Fork", "Fork", 1);
+	if (pipex->pid_right == 0)
 	{
-		pipex->pid_right = fork();
-		if (pipex->pid_right == -1)
-			ft_error(pipex, "Fork", "Fork", 1);
-		if (pipex->pid_right == 0)
-		{
-			right_child(pipex);
-			ft_ast(root->right, pipex);
-		}
-		if (pipex->pid_right > 0)
-		{
-			waitpid(-1, &status_right, WNOHANG | WUNTRACED);
-			if (!WIFEXITED(status_right))
-				exit(WEXITSTATUS(status_right));
-		}
+		right_child(pipex);
+		ft_ast(root->right, pipex);
 	}
+		close(pipex->pipe_fd[0]);
+		close(pipex->pipe_fd[1]);
+		waitpid(-1, &status, 0); 
+		exit(WEXITSTATUS(status));
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -69,7 +63,7 @@ int	main(int argc, char **argv, char **envp)
 	t_pipex	*pipex;
 
 	pipex = init_pipex();
-	if (argc != 4)
+	if (argc != 5)
 		ft_error(pipex, "Expected", "./pipex <infile> <cmd1> <cmd2> <oufile>", 1);
 	pipex->envp = envp;
 	pipex->argv = argv;

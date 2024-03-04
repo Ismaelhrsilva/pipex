@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/04 18:18:53 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/04 20:00:46 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	left_child(t_pipex *pipex)
 		exit(EXIT_FAILURE);
 	}
 	close(pipex->pipe_fd[1]);
+	close(pipex->infile);
 }
 
 void	right_child(t_pipex *pipex)
@@ -48,4 +49,5 @@ void	right_child(t_pipex *pipex)
 		exit(EXIT_FAILURE);
 	}
 	close(pipex->pipe_fd[0]);
+	close(pipex->outfile);
 }
