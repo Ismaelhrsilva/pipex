@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/04 20:33:20 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/04 20:38:03 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 		close(pipex->pipe_fd[0]);
 		close(pipex->pipe_fd[1]);
 		waitpid(-1, &status, 0); 
+	if (WIFEXITED(status))
 		exit(WEXITSTATUS(status));
+	exit(0);
 }
 
 int	main(int argc, char **argv, char **envp)
