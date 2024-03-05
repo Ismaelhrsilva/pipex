@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/05 19:38:09 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/05 19:50:31 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,26 @@ void	get_cmd(t_pipex *pipex)
 {
 	char	**cmd1;
 	char	**cmd2;
+	int	fd;
 
 	ft_split_quote(ft_strdup(pipex->argv[2]), &cmd1);
 	ft_split_quote(ft_strdup(pipex->argv[3]), &cmd2);
 	pipex->cmd1_argv = cmd1;
 	pipex->cmd2_argv = cmd2;
+	fd = open(pipex->cmd1_argv[0], O_DIRECTORY | O_RDONLY, 0644);
+	if (fd != -1)
+	{
+		close(fd);
+		if (pipex->cmd1_argv[0] && ft_strchr(pipex->cmd1_argv[0], '/'))
+			ft_error(pipex, pipex->cmd1_argv[0], strerror(errno), 126);
+		ft_error(pipex, pipex->cmd1_argv[0], "command not found", 127);
+	}
+	fd = open(pipex->cmd1_argv[1], O_DIRECTORY | O_RDONLY, 0644);
+	if (fd != -1)
+	{
+		close(fd);
+		if (pipex->cmd1_argv[1] && ft_strchr(pipex->cmd1_argv[1], '/'))
+			ft_error(pipex, pipex->cmd1_argv[1], strerror(errno), 126);
+		ft_error(pipex, pipex->cmd1_argv[0], "command not found", 127);
+	}
 }
