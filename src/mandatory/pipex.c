@@ -6,27 +6,19 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/05 15:55:46 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/05 16:13:55 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mandatory/pipex.h"
 
-static void	ft_ast(t_node *root, t_pipex *pipex)
+static void	ft_node(t_node *root, t_pipex *pipex)
 {
-	int	status;
-
-	if (root == NULL)
-		return ;
 	if (root->t == 2)
 	{
 		if (root->type == NODE_CMD)
 		{
 			execve(pipex->filename[1], pipex->cmd2_argv, pipex->envp);
-			//if (errno == 14)
-			//{
-			//	ft_error(pipex, pipex->argv[2], "command not found", 127);
-			//}
 			ft_error(pipex, pipex->argv[2], strerror(errno), errno);
 		}
 	}
@@ -36,9 +28,17 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 		{
 			execve(pipex->filename[0], pipex->cmd1_argv, pipex->envp);
 			ft_error(pipex, pipex->argv[3], strerror(errno), errno);
-			//ft_error(pipex, "Execve", "Execve", 1);
 		}
 	}
+}
+
+static void	ft_ast(t_node *root, t_pipex *pipex)
+{
+	int	status;
+
+	if (root == NULL)
+		return ;
+	ft_node(root, pipex);
 	if (pipe(pipex->pipe_fd) == -1)
 		ft_error(pipex, "Pipe", "Pipe", 1);
 	pipex->pid_left = fork();
@@ -49,6 +49,8 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 		left_child(pipex);
 		ft_ast(root->left, pipex);
 	}
+	if (!errno)
+			ft_error(pipex, pipex->argv[2], strerror(errno), errno);
 	pipex->pid_right = fork();
 	if (pipex->pid_right == -1)
 		ft_error(pipex, "Fork", "Fork", 1);
@@ -57,9 +59,11 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 		right_child(pipex);
 		ft_ast(root->right, pipex);
 	}
-		close(pipex->pipe_fd[0]);
-		close(pipex->pipe_fd[1]);
-		waitpid(-1, &status, 0); 
+	if (!errno)
+			ft_error(pipex, pipex->argv[3], strerror(errno), errno);
+	close(pipex->pipe_fd[0]);
+	close(pipex->pipe_fd[1]);
+	waitpid(-1, &status, 0); 
 	if (WIFEXITED(status))
 		exit(WEXITSTATUS(status));
 	exit(0);
