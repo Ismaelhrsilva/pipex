@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/05 14:33:32 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/05 19:38:09 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	type_of_cmd(t_pipex *pipex, char *exec, int cmd)
 {
-	if (ft_strncmp(exec, "/", 1) == 0)
+	if (exec && ft_strncmp(exec, "/", 1) == 0)
 	{
 		if (access(exec, F_OK | X_OK) == 0)
 		{
@@ -55,7 +55,7 @@ void	ft_envp(t_pipex *pipex, char *exec, int cmd)
 		{
 			f_bar = ft_strjoin(split[i], "/");
 			filename_access = ft_strjoin(f_bar, exec);
-			if (access(filename_access, F_OK | X_OK) == 0)
+			if (filename_access && access(filename_access, F_OK | X_OK) == 0)
 			{
 				pipex->filename[cmd] = filename_access;
 				free(f_bar);
