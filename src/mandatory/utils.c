@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/04 17:18:14 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/05 16:01:17 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ void	ft_error(t_pipex *pipex, char *exec, char *message, int status)
 	free(join);
 	free(join_1);
 	free(join_wline);
-	pipex->status = status;
+	if (status == EACCES)
+		status = 126;
+	else if (status == ENOENT)
+		status = 127;
 	exit(status);
 }

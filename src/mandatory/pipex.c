@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/04 20:38:03 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:55:46 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 		if (root->type == NODE_CMD)
 		{
 			execve(pipex->filename[1], pipex->cmd2_argv, pipex->envp);
-			ft_error(pipex, "Execve", "Execve", 1);
+			//if (errno == 14)
+			//{
+			//	ft_error(pipex, pipex->argv[2], "command not found", 127);
+			//}
+			ft_error(pipex, pipex->argv[2], strerror(errno), errno);
 		}
 	}
 	if (root->t == 1)
@@ -31,7 +35,8 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 		if (root->type == NODE_CMD)
 		{
 			execve(pipex->filename[0], pipex->cmd1_argv, pipex->envp);
-			ft_error(pipex, "Execve", "Execve", 1);
+			ft_error(pipex, pipex->argv[3], strerror(errno), errno);
+			//ft_error(pipex, "Execve", "Execve", 1);
 		}
 	}
 	if (pipe(pipex->pipe_fd) == -1)
