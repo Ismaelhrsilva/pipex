@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/05 19:28:55 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/05 19:57:38 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,20 @@
 
 static void	ft_node(t_node *root, t_pipex *pipex)
 {
+	int	fd;
+
 	if (root->t == 2)
 	{
 		if (root->type == NODE_CMD)
 		{
-			//execve(pipex->filename[1], pipex->cmd2_argv, pipex->envp);
-			//ft_error(pipex, pipex->argv[2], strerror(errno), errno);
+			fd = open(pipex->cmd2_argv[0], O_DIRECTORY | O_RDONLY, 0644);
+			if (fd != -1)
+			{
+				close(fd);
+				if (pipex->cmd2_argv[0] && ft_strchr(pipex->cmd2_argv[0], '/'))
+					ft_error(pipex, pipex->cmd2_argv[0], strerror(errno), 126);
+				ft_error(pipex, pipex->cmd2_argv[0], "command not found", 127);
+			}
 			if (pipex->filename[1] && access(pipex->filename[1] , F_OK | X_OK) == 0 \
 			&& execve(pipex->filename[1], pipex->cmd2_argv, pipex->envp) < 0)
 				ft_error(pipex, pipex->argv[3], strerror(errno), 127);
@@ -35,6 +43,14 @@ static void	ft_node(t_node *root, t_pipex *pipex)
 	{
 		if (root->type == NODE_CMD)
 		{
+			fd = open(pipex->cmd1_argv[0], O_DIRECTORY | O_RDONLY, 0644);
+			if (fd != -1)
+			{
+				close(fd);
+				if (pipex->cmd1_argv[0] && ft_strchr(pipex->cmd1_argv[0], '/'))
+					ft_error(pipex, pipex->cmd1_argv[0], strerror(errno), 126);
+				ft_error(pipex, pipex->cmd1_argv[0], "command not found", 127);
+			}
 			if (pipex->filename[0] && access(pipex->filename[0] , F_OK | X_OK) == 0 \
 			&& execve(pipex->filename[0], pipex->cmd1_argv, pipex->envp) < 0) 
 				ft_error(pipex, pipex->argv[2], strerror(errno), 127);
