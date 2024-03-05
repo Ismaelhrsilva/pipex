@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/05 16:13:55 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/05 16:26:11 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,11 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 		left_child(pipex);
 		ft_ast(root->left, pipex);
 	}
-	if (!errno)
-			ft_error(pipex, pipex->argv[2], strerror(errno), errno);
+	/*if (errno)
+	{
+			ft_printf("%d\n", errno);
+			//ft_error(pipex, pipex->argv[2], strerror(errno), errno);
+	}*/
 	pipex->pid_right = fork();
 	if (pipex->pid_right == -1)
 		ft_error(pipex, "Fork", "Fork", 1);
@@ -59,8 +62,11 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 		right_child(pipex);
 		ft_ast(root->right, pipex);
 	}
-	if (!errno)
-			ft_error(pipex, pipex->argv[3], strerror(errno), errno);
+	/*if (errno)
+	{
+			ft_printf("%d\n", errno);
+			//ft_error(pipex, pipex->argv[3], strerror(errno), errno);
+	}*/
 	close(pipex->pipe_fd[0]);
 	close(pipex->pipe_fd[1]);
 	waitpid(-1, &status, 0); 
