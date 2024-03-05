@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/05 18:34:08 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/05 18:44:39 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 		left_child(pipex);
 		ft_ast(root->left, pipex);
 	}
-	pipex->pid_right = fork();
-	if (pipex->pid_right == -1)
+	pipex->pid_left = fork();
+	if (pipex->pid_left == -1)
 		ft_error(pipex, "Fork", "Fork", 1);
-	if (pipex->pid_right == 0)
+	if (pipex->pid_left == 0)
 	{
 		right_child(pipex);
 		ft_ast(root->right, pipex);
@@ -95,6 +95,7 @@ int	main(int argc, char **argv, char **envp)
 	pipex = init_pipex();
 	if (argc != 5)
 		ft_error(pipex, "Expected", "./pipex <infile> <cmd1> <cmd2> <oufile>", 1);
+	
 	pipex->envp = envp;
 	pipex->argv = argv;
 	get_cmd(pipex);

@@ -46,12 +46,12 @@ Compiling: utils.c
 [0;93m04. Invalid infile and secound command:[0m
 [0;92m< a grep b | ./Makefile > /dev/null[0m
 126
-1
+126
 
 [0;93m05. Invalid infile and secound command:[0m
 [0;92m< a grep b | a > /dev/null[0m
 127
-1
+127
 
 [0;93m06. Get banana from file to terminal :[0m
 [0;92m< c grep a | grep b > /dev/tty[0m
@@ -100,41 +100,41 @@ uvo
 [0;93m12. Get list and words that start with -rw-:[0m
 [0;92m< a ls -l | grep ^-rw- > b && cat b[0m
 0
--rw-r--r-- 1 ishenriq candidate     0 Mar  5 18:15 b
--rw-r--r-- 1 ishenriq candidate    30 Mar  5 18:15 c
--rw-r--r-- 1 ishenriq candidate     3 Mar  5 18:15 d
+-rw-r--r-- 1 ishenriq candidate     0 Mar  5 18:38 b
+-rw-r--r-- 1 ishenriq candidate    30 Mar  5 18:38 c
+-rw-r--r-- 1 ishenriq candidate     3 Mar  5 18:38 d
 -rw-r--r-- 1 ishenriq candidate    42 Mar  4 18:15 file1
 -rw-r--r-- 1 ishenriq candidate  1977 Feb 22 19:23 Makefile
--rw-r--r-- 1 ishenriq candidate  4670 Mar  5 18:15 rogernet
+-rw-r--r-- 1 ishenriq candidate  4674 Mar  5 18:38 rogernet
 -rw-r--r-- 1 ishenriq candidate  8430 Mar  5 15:56 rogernet_1
 0
--rw-r--r-- 1 ishenriq candidate   398 Mar  5 18:15 b
--rw-r--r-- 1 ishenriq candidate    30 Mar  5 18:15 c
--rw-r--r-- 1 ishenriq candidate     0 Mar  5 18:15 d
+-rw-r--r-- 1 ishenriq candidate   398 Mar  5 18:38 b
+-rw-r--r-- 1 ishenriq candidate    30 Mar  5 18:38 c
+-rw-r--r-- 1 ishenriq candidate     0 Mar  5 18:38 d
 -rw-r--r-- 1 ishenriq candidate    42 Mar  4 18:15 file1
 -rw-r--r-- 1 ishenriq candidate  1977 Feb 22 19:23 Makefile
--rw-r--r-- 1 ishenriq candidate  5070 Mar  5 18:15 rogernet
+-rw-r--r-- 1 ishenriq candidate  5074 Mar  5 18:38 rogernet
 -rw-r--r-- 1 ishenriq candidate  8430 Mar  5 15:56 rogernet_1
 
 [0;93m13. Get list and directories:[0m
 [0;92m< a ls -la | grep ^d > b && cat b[0m
 0
-drwxr-xr-x  8 ishenriq candidate  4096 Mar  5 18:15 .
+drwxr-xr-x  8 ishenriq candidate  4096 Mar  5 18:38 .
 drwxr-xr-x 12 ishenriq candidate  4096 Feb 14 18:42 ..
 drwxr-xr-x  2 ishenriq candidate  4096 Mar  5 15:43 catd
-drwxr-xr-x  8 ishenriq candidate  4096 Mar  5 18:15 .git
+drwxr-xr-x  8 ishenriq candidate  4096 Mar  5 18:38 .git
 drwxr-xr-x  3 ishenriq candidate  4096 Feb 22 18:18 include
 drwxr-xr-x  4 ishenriq candidate  4096 Feb 22 18:18 lib
-drwxr-xr-x  3 ishenriq candidate  4096 Mar  5 18:15 objects
+drwxr-xr-x  3 ishenriq candidate  4096 Mar  5 18:38 objects
 drwxr-xr-x  3 ishenriq candidate  4096 Feb 22 19:38 src
 0
-drwxr-xr-x  8 ishenriq candidate  4096 Mar  5 18:15 .
+drwxr-xr-x  8 ishenriq candidate  4096 Mar  5 18:38 .
 drwxr-xr-x 12 ishenriq candidate  4096 Feb 14 18:42 ..
 drwxr-xr-x  2 ishenriq candidate  4096 Mar  5 15:43 catd
-drwxr-xr-x  8 ishenriq candidate  4096 Mar  5 18:15 .git
+drwxr-xr-x  8 ishenriq candidate  4096 Mar  5 18:38 .git
 drwxr-xr-x  3 ishenriq candidate  4096 Feb 22 18:18 include
 drwxr-xr-x  4 ishenriq candidate  4096 Feb 22 18:18 lib
-drwxr-xr-x  3 ishenriq candidate  4096 Mar  5 18:15 objects
+drwxr-xr-x  3 ishenriq candidate  4096 Mar  5 18:38 objects
 drwxr-xr-x  3 ishenriq candidate  4096 Feb 22 19:38 src
 
 [0;93m14. Get the whole path:[0m
@@ -214,7 +214,7 @@ drwxr-xr-x  3 ishenriq candidate  4096 Feb 22 19:38 src
 [0;93m29. First command is a directory.[0m
 [0;92m< a ./folder/ | cat > b[0m
 0
-126
+0
 
 [0;93m30. Both commands are directories.[0m
 [0;92m< a ./folder/ | ./folder/ > b[0m
@@ -239,7 +239,7 @@ drwxr-xr-x  3 ishenriq candidate  4096 Feb 22 19:38 src
 [0;93m34. Test some spaces.[0m
 [0;92m< a grep            ^d | tr      ' '         'o'  > b[0m
 0
-1
+0
 
 [0;93m35. Something unusual.[0m
 [0;92m< /dev/urandom cat | head -1 > b[0m
