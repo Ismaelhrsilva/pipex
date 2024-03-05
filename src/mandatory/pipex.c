@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/05 16:26:11 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/05 17:56:05 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,34 @@ static void	ft_node(t_node *root, t_pipex *pipex)
 	{
 		if (root->type == NODE_CMD)
 		{
-			execve(pipex->filename[1], pipex->cmd2_argv, pipex->envp);
-			ft_error(pipex, pipex->argv[2], strerror(errno), errno);
+			//execve(pipex->filename[1], pipex->cmd2_argv, pipex->envp);
+			//ft_error(pipex, pipex->argv[2], strerror(errno), errno);
+			if (pipex->filename[1] && access(pipex->filename[1] , F_OK | X_OK) == 0 \
+			&& execve(pipex->filename[1], pipex->cmd2_argv, pipex->envp) < 0) 
+				ft_error(pipex, pipex->argv[3], strerror(errno), 127);
+			if (pipex->cmd2_argv[0] && access(pipex->cmd2_argv[0], F_OK) == 0)
+				if (execve(pipex->cmd2_argv[0], pipex->cmd2_argv, pipex->envp) < 0)
+					ft_error(pipex, pipex->argv[3], strerror(errno), 126);
+
+			if (pipex->cmd2_argv[0] && pipex->cmd2_argv[0][0] == '/')
+				ft_error(pipex, pipex->argv[3], "No such file or directory", 0);
+			ft_error(pipex, pipex->argv[3], "command not found", 127);
 		}
 	}
 	if (root->t == 1)
 	{
 		if (root->type == NODE_CMD)
 		{
-			execve(pipex->filename[0], pipex->cmd1_argv, pipex->envp);
-			ft_error(pipex, pipex->argv[3], strerror(errno), errno);
+			if (pipex->filename[0] && access(pipex->filename[0] , F_OK | X_OK) == 0 \
+			&& execve(pipex->filename[0], pipex->cmd1_argv, pipex->envp) < 0) 
+				ft_error(pipex, pipex->argv[2], strerror(errno), 127);
+			if (pipex->cmd1_argv[0] && access(pipex->cmd1_argv[0], F_OK) == 0)
+				if (execve(pipex->cmd1_argv[0], pipex->cmd1_argv, pipex->envp) < 0)
+					ft_error(pipex, pipex->argv[2], strerror(errno), 126);
+
+			if (pipex->cmd1_argv[0] && pipex->cmd1_argv[0][0] == '/')
+				ft_error(pipex, pipex->argv[2], "No such file or directory", 0);
+			ft_error(pipex, pipex->argv[2], "command not found", 127);
 		}
 	}
 }
@@ -49,11 +67,6 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 		left_child(pipex);
 		ft_ast(root->left, pipex);
 	}
-	/*if (errno)
-	{
-			ft_printf("%d\n", errno);
-			//ft_error(pipex, pipex->argv[2], strerror(errno), errno);
-	}*/
 	pipex->pid_right = fork();
 	if (pipex->pid_right == -1)
 		ft_error(pipex, "Fork", "Fork", 1);
@@ -62,11 +75,6 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 		right_child(pipex);
 		ft_ast(root->right, pipex);
 	}
-	/*if (errno)
-	{
-			ft_printf("%d\n", errno);
-			//ft_error(pipex, pipex->argv[3], strerror(errno), errno);
-	}*/
 	close(pipex->pipe_fd[0]);
 	close(pipex->pipe_fd[1]);
 	waitpid(-1, &status, 0); 
