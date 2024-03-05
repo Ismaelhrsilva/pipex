@@ -6,11 +6,28 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/03 20:09:47 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/05 14:33:32 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mandatory/pipex.h"
+
+static int	type_of_cmd(t_pipex *pipex, char *exec, int cmd)
+{
+	if (ft_strncmp(exec, "/", 1) == 0)
+	{
+		if (access(exec, F_OK | X_OK) == 0)
+		{
+			pipex->filename[cmd] = exec;
+			return (0);
+		}
+		else
+			return (1);
+	}
+	else
+		return (1);
+}
+
 
 void	ft_envp(t_pipex *pipex, char *exec, int cmd)
 {
@@ -20,37 +37,41 @@ void	ft_envp(t_pipex *pipex, char *exec, int cmd)
 	char	*filename_access;
 
 	i = 0;
-	while (pipex->envp[i] != NULL)
+	if (type_of_cmd(pipex, exec, cmd))
 	{
-		if (ft_strncmp(pipex->envp[i], "PATH=", 5) == 0)
+		while (pipex->envp[i] != NULL)
 		{
-			pipex->path = (pipex->envp[i] + 6);
-			break ;
+			if (ft_strncmp(pipex->envp[i], "PATH=", 5) == 0)
+			{
+				pipex->path = (pipex->envp[i] + 6);
+				break ;
+			}
+			else
+				i++;
 		}
-		else
+		i = 0;
+		split = ft_split(pipex->path, ':');
+		while (split[i] != NULL)
+		{
+			f_bar = ft_strjoin(split[i], "/");
+			filename_access = ft_strjoin(f_bar, exec);
+			if (access(filename_access, F_OK | X_OK) == 0)
+			{
+				pipex->filename[cmd] = filename_access;
+				free(f_bar);
+				break ;
+			}
+			else
+			{	
+				free(f_bar);
+				free(filename_access);
+			}
 			i++;
-	}
-	i = 0;
-	split = ft_split(pipex->path, ':');
-	while (split[i] != NULL)
-	{
-		f_bar = ft_strjoin(split[i], "/");
-		filename_access = ft_strjoin(f_bar, exec);
-		if (access(filename_access, F_OK | X_OK) == 0)
-		{
-			pipex->filename[cmd] = filename_access;
-			free(f_bar);
-			break ;
 		}
-		else
-		{	
-			free(f_bar);
-			free(filename_access);
-		}
-		i++;
+		free(split);
 	}
-	free(split);
 }
+
 
 void	get_cmd(t_pipex *pipex)
 {
