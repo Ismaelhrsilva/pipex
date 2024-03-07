@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/06 22:10:09 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/06 23:00:13 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	ft_error(t_pipex *pipex, char *exec, char *message, int status)
 	char	*join;
 	char	*join_1;
 
+	if (!pipex)
+		return ;
 	join_1 = ft_strjoin(exec, ": ");
 	join = ft_strjoin(join_1, message);
 	ft_putendl_fd(join, 2);
