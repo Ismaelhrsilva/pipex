@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:25:14 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/06 22:13:01 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/06 22:30:47 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ typedef struct s_pipex
 	char	**cmd2_argv;
 	int		pipe_fd[2];
 	pid_t	pid_left;
-	pid_t	pid_right;
 	int		infile;
 	int		outfile;
 	t_node	*cmd1;
 	t_node	*cmd2;
 	t_node	*pipenode;
+	int		status;
 }	t_pipex;
 
 t_node	*create_cmd_node(char **args, int t);

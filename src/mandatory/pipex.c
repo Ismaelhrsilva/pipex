@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/06 22:27:05 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/06 22:55:45 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,18 @@ static void	ft_node_right(t_node *root, t_pipex *pipex)
 	}
 }
 
+static	void	close_and_end(t_pipex *pipex)
+{
+	close(pipex->pipe_fd[0]);
+	close(pipex->pipe_fd[1]);
+	waitpid(pipex->pid_left, &pipex->status, 0);
+	if (WIFEXITED(pipex->status))
+		exit(WEXITSTATUS(pipex->status));
+	exit(pipex->status);
+}
+
 static void	ft_ast(t_node *root, t_pipex *pipex)
 {
-	int	status;
-
 	if (root == NULL)
 		return ;
 	ft_node_left(root, pipex);
@@ -92,12 +100,7 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 		right_child(pipex);
 		ft_ast(root->right, pipex);
 	}
-	close(pipex->pipe_fd[0]);
-	close(pipex->pipe_fd[1]);
-	waitpid(pipex->pid_left, &status, 0);
-	if (WIFEXITED(status))
-		exit(WEXITSTATUS(status));
-	exit(status);
+	close_and_end(pipex);
 }
 
 int	main(int argc, char **argv, char **envp)
