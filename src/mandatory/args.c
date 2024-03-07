@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/06 22:20:38 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/06 22:22:48 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	ft_envp(t_pipex *pipex, char *exec, int cmd)
 {
 	int		i;
 	char	**split;
-
 
 	i = 0;
 	if (type_of_cmd(pipex, exec, cmd))
