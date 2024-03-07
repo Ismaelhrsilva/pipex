@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/06 22:22:48 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/07 01:33:19 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,14 @@ static int	type_of_cmd(t_pipex *pipex, char *exec, int cmd)
 		return (1);
 }
 
-static void	get_filename(t_pipex *pipex, char **split, char *exec, int cmd)
+void	get_filename(t_pipex *pipex, char **split, char *exec, int cmd)
 {
 	char	*f_bar;
 	char	*filename_access;
 	int		i;
 
 	i = 0;
+	pipex->split = split;
 	while (split[i] != NULL)
 	{
 		f_bar = ft_strjoin(split[i], "/");
@@ -52,7 +53,6 @@ static void	get_filename(t_pipex *pipex, char **split, char *exec, int cmd)
 		}
 		i++;
 	}
-	free(split);
 }
 
 void	ft_envp(t_pipex *pipex, char *exec, int cmd)
@@ -88,4 +88,22 @@ void	get_cmd(t_pipex *pipex)
 	ft_split_quote(ft_strdup(pipex->argv[3]), &cmd2);
 	pipex->cmd1_argv = cmd1;
 	pipex->cmd2_argv = cmd2;
+}
+
+void	erase(t_pipex *pipex)
+{
+	int	i;
+
+	i = 0;
+	if (pipex->split)
+	{
+		while (pipex->split[i] != NULL)
+		{
+			free(pipex->split[i]);
+			i++;
+		}
+		free(pipex->split);
+	}
+	free(pipex->cmd1_argv);
+	free(pipex->cmd2_argv);
 }

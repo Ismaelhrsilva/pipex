@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/06 23:10:59 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/07 01:33:28 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,9 @@ static	void	close_and_end(t_pipex *pipex)
 	status = pipex->status;
 	free(pipex->filename[0]);
 	free(pipex->filename[1]);
-	free(pipex->cmd1_argv);
-	free(pipex->cmd2_argv);
 	close(pipex->pipe_fd[0]);
 	close(pipex->pipe_fd[1]);
+	erase(pipex);
 	waitpid(pipex->pid_left, &status, 0);
 	free_ast(pipex->pipenode);
 	if (WIFEXITED(status))
@@ -108,7 +107,11 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 		right_child(pipex);
 		ft_ast(root->right, pipex);
 	}
-	close_and_end(pipex);
+	if (pipex->pid_left > 0)
+	{
+
+		close_and_end(pipex);
+	}
 }
 
 int	main(int argc, char **argv, char **envp)
