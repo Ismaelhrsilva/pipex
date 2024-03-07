@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:28:38 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/03 18:45:33 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/07 02:43:04 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,6 @@ void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 void	ft_strrplc(char *str, char old, char new);
-void	ft_split_quote(char *tmp, char ***splitted);
+char	**ft_split_quote(char *tmp);
 
 #endif

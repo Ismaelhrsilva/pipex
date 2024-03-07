@@ -6,16 +6,18 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 19:29:07 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/03 18:36:01 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/07 02:42:57 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_split_quote(char *tmp, char ***splitted)
+char	**ft_split_quote(char *tmp)
 {
 	int		i;
+	int		j;
 	char	sign;
+	char	**splitted;
 
 	i = -1;
 	sign = 0;
@@ -34,9 +36,10 @@ void	ft_split_quote(char *tmp, char ***splitted)
 		else if (sign && *(tmp + i) == ' ')
 			*(tmp + i) = 0x1A;
 	}
-	*splitted = ft_split(tmp, ' ');
+	splitted = ft_split(tmp, ' ');
 	i = 0;
-	while (*(*(splitted) + i))
-		ft_strrplc(*(*(splitted) + i++), 0x1A, ' ');
-	free(tmp);
+	j = 0;
+	while (splitted[j])
+		ft_strrplc(splitted[j++], 0x1A, ' ');
+	return (splitted);
 }
