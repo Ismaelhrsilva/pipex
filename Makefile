@@ -6,13 +6,13 @@
 #    By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/11 20:08:54 by ishenriq          #+#    #+#              #
-#    Updated: 2024/02/22 19:23:19 by ishenriq         ###   ########.fr        #
+#    Updated: 2024/03/06 22:58:41 by ishenriq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	= pipex 
-CFLAGS	:= -g3
-#CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast -g3 -O3
+NAME	= pipex
+#CFLAGS	:= -g3
+CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast -g3 -O3
 CC	:= cc
 PRINTF	:= lib/printf/
 LIBFT	:= lib/libft/

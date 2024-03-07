@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/06 22:55:45 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/06 23:10:59 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,20 @@ static void	ft_node_right(t_node *root, t_pipex *pipex)
 
 static	void	close_and_end(t_pipex *pipex)
 {
+	int	status;
+
+	status = pipex->status;
+	free(pipex->filename[0]);
+	free(pipex->filename[1]);
+	free(pipex->cmd1_argv);
+	free(pipex->cmd2_argv);
 	close(pipex->pipe_fd[0]);
 	close(pipex->pipe_fd[1]);
-	waitpid(pipex->pid_left, &pipex->status, 0);
-	if (WIFEXITED(pipex->status))
-		exit(WEXITSTATUS(pipex->status));
-	exit(pipex->status);
+	waitpid(pipex->pid_left, &status, 0);
+	free_ast(pipex->pipenode);
+	if (WIFEXITED(status))
+		exit(WEXITSTATUS(status));
+	exit(status);
 }
 
 static void	ft_ast(t_node *root, t_pipex *pipex)
@@ -120,6 +128,5 @@ int	main(int argc, char **argv, char **envp)
 	pipex->cmd2 = create_cmd_node(pipex->cmd2_argv, 2);
 	pipex->pipenode = create_pipe_node(pipex);
 	ft_ast(pipex->pipenode, pipex);
-	free_ast(pipex->pipenode);
 	return (0);
 }
