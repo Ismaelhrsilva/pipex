@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/04 20:00:46 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/06 22:10:55 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	left_child(t_pipex *pipex)
 	close(pipex->pipe_fd[0]);
 	pipex->infile = open(pipex->argv[1], O_RDONLY);
 	if (pipex->infile == -1)
-		ft_error(pipex, pipex->argv[1],strerror(errno), 1);
+		ft_error(pipex, pipex->argv[1], strerror(errno), 1);
 	if (dup2(pipex->infile, STDIN_FILENO) == -1)
 	{
 		perror("dup2");

@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:25:14 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/05 15:48:10 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/06 22:13:01 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PIPEX_H
 
 # include <fcntl.h>      // open, close
-# include <unistd.h>     // read, write, close, dup, dup2, execve, fork, pipe, unlink, wait, waitpid
+# include <unistd.h>     // read, close, dup2, execve, fork, pipe, waitpid
 # include <stdlib.h>     // malloc, free, exit
 # include <stdio.h>      // perror
 # include <errno.h>      // perror, strerror
@@ -26,22 +26,22 @@
 # include "../lib/printf/ft_printf.h"
 # include "../lib/libft/gnl/get_next_line.h"
 
-typedef enum 
+typedef enum e_nodetype
 {
 	NODE_CMD = 0,
 	NODE_PIPE
-}	nodetype;
+}	t_nodetype;
 
 typedef struct s_node
 {
-	nodetype type;
-	int	t;
-	char **args;
+	t_nodetype		type;
+	int				t;
+	char			**args;
 	struct s_node	*left;
 	struct s_node	*right;
 }	t_node;
 
-typedef struct	s_pipex
+typedef struct s_pipex
 {
 	int		argc;
 	char	**argv;
@@ -71,4 +71,3 @@ void	get_cmd(t_pipex *pipex);
 void	ft_envp(t_pipex *pipex, char *exec, int cmd);
 
 #endif
-

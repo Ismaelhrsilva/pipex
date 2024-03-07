@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/05 18:31:04 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/06 22:10:09 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	*init_pipex(void)
 {
-	static	t_pipex	pipex;
+	static t_pipex	pipex;
 
 	return (&pipex);
 }

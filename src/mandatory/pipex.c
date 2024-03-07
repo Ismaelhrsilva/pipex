@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/06 21:53:05 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/06 22:10:00 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	ft_node(t_node *root, t_pipex *pipex)
 				ft_error(pipex, pipex->cmd1_argv[0], "command not found", 127);
 			}
 			if (pipex->filename[0] && access(pipex->filename[0] , F_OK | X_OK) == 0 \
-			&& execve(pipex->filename[0], pipex->cmd1_argv, pipex->envp) < 0) 
+			&& execve(pipex->filename[0], pipex->cmd1_argv, pipex->envp) < 0)
 				ft_error(pipex, pipex->argv[2], strerror(errno), 127);
 			if (pipex->cmd1_argv[0] && access(pipex->cmd1_argv[0], F_OK) == 0)
 				if (execve(pipex->cmd1_argv[0], pipex->cmd1_argv, pipex->envp) < 0)
@@ -73,10 +73,10 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 		return ;
 	ft_node(root, pipex);
 	if (pipe(pipex->pipe_fd) == -1)
-		ft_error(pipex, "Pipe", "Pipe", 1);
+		ft_error(pipex, "Pipe", strerror(errno), 1);
 	pipex->pid_left = fork();
 	if (pipex->pid_left == -1)
-		ft_error(pipex, "Fork", "Fork", 1);
+		ft_error(pipex, "Fork", strerror(errno), 1);
 	if (pipex->pid_left == 0)
 	{
 		left_child(pipex);
@@ -84,7 +84,7 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 	}
 	pipex->pid_left = fork();
 	if (pipex->pid_left == -1)
-		ft_error(pipex, "Fork", "Fork", 1);
+		ft_error(pipex, "Fork", strerror(errno), 1);
 	if (pipex->pid_left == 0)
 	{
 		right_child(pipex);
@@ -92,7 +92,7 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 	}
 	close(pipex->pipe_fd[0]);
 	close(pipex->pipe_fd[1]);
-	waitpid(pipex->pid_left, &status, 0); 
+	waitpid(pipex->pid_left, &status, 0);
 	if (WIFEXITED(status))
 		exit(WEXITSTATUS(status));
 	exit(status);
@@ -104,8 +104,8 @@ int	main(int argc, char **argv, char **envp)
 
 	pipex = init_pipex();
 	if (argc != 5)
-		ft_error(pipex, "Expected", "./pipex <infile> <cmd1> <cmd2> <oufile>", 1);
-	
+		ft_error(pipex, "Expected",
+			"./pipex <infile> <cmd1> <cmd2> <oufile>", 1);
 	pipex->envp = envp;
 	pipex->argv = argv;
 	get_cmd(pipex);
@@ -114,7 +114,6 @@ int	main(int argc, char **argv, char **envp)
 	pipex->cmd1 = create_cmd_node(pipex->cmd1_argv, 1);
 	pipex->cmd2 = create_cmd_node(pipex->cmd2_argv, 2);
 	pipex->pipenode = create_pipe_node(pipex);
-
 	ft_ast(pipex->pipenode, pipex);
 	free_ast(pipex->pipenode);
 	return (0);
