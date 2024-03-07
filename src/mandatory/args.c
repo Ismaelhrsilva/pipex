@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/07 02:45:13 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/07 02:50:27 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,16 @@ void	get_filename(t_pipex *pipex, char **split, char *exec, int cmd)
 		}
 		i++;
 	}
+	i = 0;
+	if (split)
+	{
+		while (split[i] != NULL)
+		{
+			free(split[i]);
+			i++;
+		}
+		free(split);
+	}
 }
 
 void	ft_envp(t_pipex *pipex, char *exec, int cmd)
@@ -98,27 +108,27 @@ void	erase(t_pipex *pipex)
 	int	i;
 
 	i = 0;
-	if (pipex->split)
-	{
-		while (pipex->split[i] != NULL)
-		{
-			free(pipex->split[i]);
-			i++;
-		}
-		free(pipex->split);
-	}
-	// i = 0;
-	// if (pipex->cmd1_argv)
+	// if (pipex->split)
 	// {
-	// 	while (pipex->cmd1_argv[i] != NULL)
+	// 	while (pipex->split[i] != NULL)
 	// 	{
-	// 		free(pipex->cmd1_argv[i]);
+	// 		free(pipex->split[i]);
 	// 		i++;
 	// 	}
-	// 	//free(pipex->cmd1_argv);
+	// 	free(pipex->split);
 	// }
-	free(pipex->cmd1_argv[1]);
-	free(pipex->cmd1_argv);
+	i = 0;
+	if (pipex->cmd1_argv)
+	{
+		while (pipex->cmd1_argv[i] != NULL)
+		{
+			free(pipex->cmd1_argv[i]);
+			i++;
+		}
+		//free(pipex->cmd1_argv);
+	}
+	//free(pipex->cmd1_argv[1]);
+	//free(pipex->cmd1_argv);
 	free(pipex->cmd2_argv[1]);
 	free(pipex->cmd2_argv);
 }
