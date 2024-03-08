@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/08 13:37:28 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/08 13:39:03 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	ft_exit(t_pipex *pipex)
 	exit(pipex->status);
 }
 
-static void	which_root(t_node *root, t_pipex *pipex)
+static void	which_root(t_node *root, t_pipex *	pipex)
 {
 	if (root->t == 1)
 		ft_node_left(pipex);
