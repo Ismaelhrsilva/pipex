@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/08 13:02:16 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/08 17:24:44 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,13 @@ void	erase(t_pipex *pipex)
 	}
 	if (pipex->cmd2_argv)
 		free(pipex->cmd2_argv);
+}
+
+void	ft_exit(t_pipex *pipex)
+{
+	close_and_end(pipex);
+	waitpid(pipex->pid_left, &pipex->status, 0);
+	if (WIFEXITED(pipex->status))
+		exit(WEXITSTATUS(pipex->status));
+	exit(pipex->status);
 }

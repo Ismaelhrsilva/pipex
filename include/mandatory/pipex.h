@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:25:14 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/08 13:33:39 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/08 17:24:55 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,6 @@ void	get_filename(t_pipex *pipex, char **split, char *exec, int cmd);
 void	erase(t_pipex *pipex);
 void	close_and_end(t_pipex *pipex);
 void	ft_ast(t_node *root, t_pipex *pipex);
+void	ft_exit(t_pipex *pipex);
+
 #endif

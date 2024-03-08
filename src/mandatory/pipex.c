@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/08 13:39:03 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/08 17:25:02 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	ft_node_right(t_pipex *pipex)
 {
 	int	fd;
 
-	if (pipex->cmd1_argv[0])
+	if (pipex->cmd2_argv[0])
 	{
 		fd = open(pipex->cmd2_argv[0], O_DIRECTORY | O_RDONLY, 0644);
 		if (fd != -1)
@@ -66,23 +66,13 @@ static void	ft_node_right(t_pipex *pipex)
 	ft_error(pipex, pipex->argv[3], "command not found", 127);
 }
 
-static void	ft_exit(t_pipex *pipex)
-{
-	close_and_end(pipex);
-	waitpid(pipex->pid_left, &pipex->status, 0);
-	if (WIFEXITED(pipex->status))
-		exit(WEXITSTATUS(pipex->status));
-	exit(pipex->status);
-}
-
-static void	which_root(t_node *root, t_pipex *	pipex)
+static void	which_root(t_node *root, t_pipex *pipex)
 {
 	if (root->t == 1)
 		ft_node_left(pipex);
 	if (root->t == 2)
 		ft_node_right(pipex);
 }
-
 
 void	ft_ast(t_node *root, t_pipex *pipex)
 {
