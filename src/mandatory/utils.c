@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/06 23:00:13 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/08 11:23:05 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ void	ft_error(t_pipex *pipex, char *exec, char *message, int status)
 		status = 126;
 	else if (status == ENOENT)
 		status = 127;
+	close_and_end(pipex);
 	exit(status);
 }

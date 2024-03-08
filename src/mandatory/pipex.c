@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/07 01:49:46 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/08 11:26:56 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,17 @@ static void	ft_node_right(t_node *root, t_pipex *pipex)
 	}
 }
 
-static	void	close_and_end(t_pipex *pipex)
+void	close_and_end(t_pipex *pipex)
+{
+	free(pipex->filename[0]);
+	free(pipex->filename[1]);
+	close(pipex->pipe_fd[0]);
+	close(pipex->pipe_fd[1]);
+	erase(pipex);
+	free_ast(pipex->pipenode);
+}
+
+/*void	close_and_end(t_pipex *pipex)
 {
 	int	status;
 
@@ -81,10 +91,14 @@ static	void	close_and_end(t_pipex *pipex)
 	if (WIFEXITED(status))
 		exit(WEXITSTATUS(status));
 	exit(status);
-}
+}*/
+
+
 
 static void	ft_ast(t_node *root, t_pipex *pipex)
 {
+	int	status;
+
 	if (root == NULL)
 		return ;
 	ft_node_left(root, pipex);
@@ -108,7 +122,14 @@ static void	ft_ast(t_node *root, t_pipex *pipex)
 		ft_ast(root->right, pipex);
 	}
 	if (pipex->pid_left > 0)
+	{
+		//status = pipex->status;
 		close_and_end(pipex);
+		waitpid(pipex->pid_left, &status, 0);
+		if (WIFEXITED(status))
+			exit(WEXITSTATUS(status));
+		exit(status);
+	}
 }
 
 int	main(int argc, char **argv, char **envp)

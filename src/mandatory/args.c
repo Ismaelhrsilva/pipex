@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/07 02:50:27 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/08 11:07:30 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	get_filename(t_pipex *pipex, char **split, char *exec, int cmd)
 	int		i;
 
 	i = 0;
-	pipex->split = split;
+	//pipex->split = split;
 	while (split[i] != NULL)
 	{
 		f_bar = ft_strjoin(split[i], "/");
@@ -118,17 +118,23 @@ void	erase(t_pipex *pipex)
 	// 	free(pipex->split);
 	// }
 	i = 0;
-	if (pipex->cmd1_argv)
+	while (pipex->cmd1_argv[i] != NULL)
 	{
-		while (pipex->cmd1_argv[i] != NULL)
-		{
-			free(pipex->cmd1_argv[i]);
-			i++;
-		}
-		//free(pipex->cmd1_argv);
+		free(pipex->cmd1_argv[i]);
+		i++;
 	}
+	if (pipex->cmd1_argv)
+		free(pipex->cmd1_argv);
+	i = 0;
+	while (pipex->cmd2_argv[i] != NULL)
+	{
+		free(pipex->cmd2_argv[i]);
+		i++;
+	}
+	if (pipex->cmd2_argv)
+		free(pipex->cmd2_argv);
 	//free(pipex->cmd1_argv[1]);
 	//free(pipex->cmd1_argv);
-	free(pipex->cmd2_argv[1]);
-	free(pipex->cmd2_argv);
+	//free(pipex->cmd2_argv[1]);
+	//free(pipex->cmd2_argv);
 }
