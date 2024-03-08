@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:25:14 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/08 12:01:01 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/08 12:58:38 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ typedef struct s_pipex
 	t_node	*cmd2;
 	t_node	*pipenode;
 	int		status;
-	char	**split;
 }	t_pipex;
 
 t_node	*create_cmd_node(char **args, int t);

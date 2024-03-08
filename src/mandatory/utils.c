@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/08 12:01:27 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/08 13:02:16 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,8 @@ void	close_and_end(t_pipex *pipex)
 {
 	if (pipex->pipenode)
 	{
-		//if (!pipex->filename[0])
 		if (!pipex->type_filename[0] && pipex->filename[0])
 			free(pipex->filename[0]);
-		//if (!pipex->filename[1])
 		if (!pipex->type_filename[1] && pipex->filename[1])
 			free(pipex->filename[1]);
 		close(pipex->pipe_fd[0]);
@@ -60,16 +58,6 @@ void	erase(t_pipex *pipex)
 {
 	int	i;
 
-	i = 0;
-	// if (pipex->split)
-	// {
-	// 	while (pipex->split[i] != NULL)
-	// 	{
-	// 		free(pipex->split[i]);
-	// 		i++;
-	// 	}
-	// 	free(pipex->split);
-	// }
 	i = 0;
 	while (pipex->cmd1_argv[i] != NULL)
 	{
@@ -86,8 +74,4 @@ void	erase(t_pipex *pipex)
 	}
 	if (pipex->cmd2_argv)
 		free(pipex->cmd2_argv);
-	//free(pipex->cmd1_argv[1]);
-	//free(pipex->cmd1_argv);
-	//free(pipex->cmd2_argv[1]);
-	//free(pipex->cmd2_argv);
 }
