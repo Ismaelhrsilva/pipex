@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/08 11:48:15 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/08 12:00:52 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static int	type_of_cmd(t_pipex *pipex, char *exec, int cmd)
 	{
 		if (access(exec, F_OK | X_OK) == 0)
 		{
+			pipex->type_filename[cmd] = 1;
 			pipex->filename[cmd] = exec;
 			return (0);
 		}
@@ -42,6 +43,7 @@ void	get_filename(t_pipex *pipex, char **split, char *exec, int cmd)
 		filename_access = ft_strjoin(f_bar, exec);
 		if (filename_access && access(filename_access, F_OK | X_OK) == 0)
 		{
+			pipex->type_filename[cmd] = 0;
 			pipex->filename[cmd] = filename_access;
 			free(f_bar);
 			break ;
