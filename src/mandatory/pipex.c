@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/08 11:26:56 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/08 11:43:30 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,7 @@ static void	ft_node_right(t_node *root, t_pipex *pipex)
 	}
 }
 
-void	close_and_end(t_pipex *pipex)
-{
-	free(pipex->filename[0]);
-	free(pipex->filename[1]);
-	close(pipex->pipe_fd[0]);
-	close(pipex->pipe_fd[1]);
-	erase(pipex);
-	free_ast(pipex->pipenode);
-}
+
 
 /*void	close_and_end(t_pipex *pipex)
 {

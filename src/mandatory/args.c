@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/08 11:07:30 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/08 11:48:15 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,40 +101,4 @@ void	get_cmd(t_pipex *pipex)
 	free(cd1);
 	free(cd2);
 
-}
-
-void	erase(t_pipex *pipex)
-{
-	int	i;
-
-	i = 0;
-	// if (pipex->split)
-	// {
-	// 	while (pipex->split[i] != NULL)
-	// 	{
-	// 		free(pipex->split[i]);
-	// 		i++;
-	// 	}
-	// 	free(pipex->split);
-	// }
-	i = 0;
-	while (pipex->cmd1_argv[i] != NULL)
-	{
-		free(pipex->cmd1_argv[i]);
-		i++;
-	}
-	if (pipex->cmd1_argv)
-		free(pipex->cmd1_argv);
-	i = 0;
-	while (pipex->cmd2_argv[i] != NULL)
-	{
-		free(pipex->cmd2_argv[i]);
-		i++;
-	}
-	if (pipex->cmd2_argv)
-		free(pipex->cmd2_argv);
-	//free(pipex->cmd1_argv[1]);
-	//free(pipex->cmd1_argv);
-	//free(pipex->cmd2_argv[1]);
-	//free(pipex->cmd2_argv);
 }
