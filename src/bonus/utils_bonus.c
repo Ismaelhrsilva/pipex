@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/10 13:00:08 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 13:02:01 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	close_and_end(t_pipex *pipex)
 {
 	if (!pipex->type_filename && pipex->filename)
 		free(pipex->filename);
-	close(pipex->fds[ncmd]);
+	close_fds(pipex->fds[pipex->ncmd]);
 	erase(pipex);
 }
 
