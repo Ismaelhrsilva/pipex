@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:25:14 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/10 12:44:57 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 13:08:39 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,13 @@ typedef struct s_pipex
 	int		type_filename;
 	char	*filename;
 
+	char	*inf;
+	char	*outf;
+
 	int		ncmd;
 	char	**cmd_argv;
 	
 	int		**fds;
-	//int		pipe_fd[2];
 	int		infile;
 	int		outfile;
 
@@ -65,7 +67,7 @@ typedef struct s_pipex
 void	*init_pipex(void);
 void	child(t_pipex *pipex, int typefile);
 void	open_file(t_pipex *pipex, int typefile);
-void	open_dup(t_pipex *pipex);
+void	open_dup(t_pipex *pipex, int typefile);
 void	ft_execute(t_pipex *pipex, int cmd);
 void	ft_error(t_pipex *pipex, char *exec, char *message, int status);
 void	get_cmd(t_pipex *pipex);

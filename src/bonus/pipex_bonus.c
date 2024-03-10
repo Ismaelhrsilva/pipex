@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/10 12:58:34 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 13:07:41 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_pipex(t_pipex *pipex)
 {
 	while (pipex->ncmd < pipex->argc)
 	{
-		if (pipe(pipex->fds[pipex->ncmd])
+		if (pipe(pipex->fds[pipex->ncmd]))
 			ft_error(pipex, "Pipe", strerror(errno), 1);
 		pipex->pid = fork();
 		if (pipex->pid == -1)
@@ -30,7 +30,7 @@ void	ft_pipex(t_pipex *pipex)
 		if (pipex->ncmd >= 1)
 		close_fds(pipex->fds[pipex->ncmd - 1]);
 		pipex->ncmd++;
-		if (pipex->pid_left > 0)
+		if (pipex->pid > 0)
 			ft_exit(pipex);
 	}
 }
@@ -41,12 +41,12 @@ int	main(int argc, char **argv, char **envp)
 
 	pipex = init_pipex();
 	if (argc < 5)
-		ft_error(pipex, "Expected more than 5 arguments",
+		ft_error(pipex, "Pipex: " ,"Expected more than 5 arguments", 1);
 	pipex->envp = envp;
 	pipex->argv = argv;
 	pipex->argc = argc;
-	pipex->infile = argv[1];
-	pipex->outfile = argv[argc - 1];
+	pipex->inf = argv[1];
+	pipex->outf = argv[argc - 1];
 	construct_fds(pipex);
 	ft_pipex(pipex);
 	return (0);
