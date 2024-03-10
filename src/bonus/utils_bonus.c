@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/10 16:19:06 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 18:05:05 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ void	erase(t_pipex *pipex)
 void	ft_exit(t_pipex *pipex)
 {
 	close_and_end(pipex);
-	//waitpid(pipex->pid, &pipex->status, WNOHANG | WUNTRACED);
-	waitpid(pipex->pid, &pipex->status,0); 
+	waitpid(pipex->pid, &pipex->status, WUNTRACED); 
 	if (WIFEXITED(pipex->status))
 		exit(WEXITSTATUS(pipex->status));
 	exit(pipex->status);

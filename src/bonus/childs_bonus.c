@@ -6,57 +6,12 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/10 17:23:06 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 17:39:30 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus/pipex_bonus.h"
 
-
-void	child(t_pipex *pipex, int typefile)
-{
-	open_dup(pipex, typefile);
-	
-	get_cmd(pipex);
-	ft_envp(pipex, pipex->cmd_argv[0]);
-	ft_execute(pipex, pipex->ncmd);
-}
-
-void	open_dup(t_pipex *pipex, int typefile)
-{
-	if (typefile == INFILE)
-	{
-		open_file(pipex, typefile);
-		if (dup2(pipex->fds[pipex->ncmd -2][WRITE], STDOUT_FILENO) == -1)
-			ft_error(pipex, "dup2", strerror(errno), 1);
-		close(pipex->fds[pipex->ncmd - 2][WRITE]);
-		close(pipex->fds[pipex->ncmd - 2][READ]);
-		if (dup2(pipex->infile, STDIN_FILENO) == -1)
-			ft_error(pipex, "dup2", strerror(errno), 1);
-		close(pipex->infile);
-	}
-	else if (typefile == OUTFILE)
-	{
-		open_file(pipex, typefile);
-		if (dup2(pipex->fds[pipex->ncmd - 3][READ], STDIN_FILENO) == -1)
-			ft_error(pipex, "dup2", strerror(errno), 1);
-		close(pipex->fds[pipex->ncmd - 3][WRITE]);
-		close(pipex->fds[pipex->ncmd - 3][READ]);
-		if (dup2(pipex->outfile, STDOUT_FILENO) == -1)
-			ft_error(pipex, "dup2", strerror(errno), 1);
-		close(pipex->outfile);
-	}
-	else if (typefile == MIDFILE)
-	{
-		open_file(pipex, typefile);
-		if (dup2(pipex->fds[pipex->ncmd - 3][READ], STDIN_FILENO) == -1)
-			ft_error(pipex, "dup2", strerror(errno), 1);
-		close(pipex->fds[pipex->ncmd - 3][READ]);
-		if (dup2(pipex->fds[pipex->ncmd - 2][WRITE], STDOUT_FILENO) == -1)
-			ft_error(pipex, "dup2", strerror(errno), 1);
-		close(pipex->fds[pipex->ncmd - 2][WRITE]);
-	}
-}
 
 void	open_file(t_pipex *pipex, int typefile)
 {
@@ -110,4 +65,48 @@ void	ft_execute(t_pipex *pipex, int cmd)
 		ft_error(pipex, pipex->cmd_argv[0],
 			"No such file or directory", 127);
 	ft_error(pipex, pipex->argv[cmd], "command not found", 127);
+}
+
+void	open_dup(t_pipex *pipex, int typefile)
+{
+	if (typefile == INFILE)
+	{
+		open_file(pipex, typefile);
+		if (dup2(pipex->fds[pipex->ncmd - 2][WRITE], STDOUT_FILENO) == -1)
+			ft_error(pipex, "dup2", strerror(errno), 1);
+		close(pipex->fds[pipex->ncmd - 2][WRITE]);
+		close(pipex->fds[pipex->ncmd - 2][READ]);
+		if (dup2(pipex->infile, STDIN_FILENO) == -1)
+			ft_error(pipex, "dup2", strerror(errno), 1);
+		close(pipex->infile);
+	}
+	else if (typefile == OUTFILE)
+	{
+		open_file(pipex, typefile);
+		if (dup2(pipex->fds[pipex->ncmd - 3][READ], STDIN_FILENO) == -1)
+			ft_error(pipex, "dup2", strerror(errno), 1);
+		close(pipex->fds[pipex->ncmd - 3][WRITE]);
+		close(pipex->fds[pipex->ncmd - 3][READ]);
+		if (dup2(pipex->outfile, STDOUT_FILENO) == -1)
+			ft_error(pipex, "dup2", strerror(errno), 1);
+		close(pipex->outfile);
+	}
+	else if (typefile == MIDFILE)
+	{
+		open_file(pipex, typefile);
+		if (dup2(pipex->fds[pipex->ncmd - 3][READ], STDIN_FILENO) == -1)
+			ft_error(pipex, "dup2", strerror(errno), 1);
+		close(pipex->fds[pipex->ncmd - 3][READ]);
+		if (dup2(pipex->fds[pipex->ncmd - 2][WRITE], STDOUT_FILENO) == -1)
+			ft_error(pipex, "dup2", strerror(errno), 1);
+		close(pipex->fds[pipex->ncmd - 2][WRITE]);
+	}
+}
+
+void	child(t_pipex *pipex, int typefile)
+{
+	open_dup(pipex, typefile);
+	get_cmd(pipex);
+	ft_envp(pipex, pipex->cmd_argv[0]);
+	ft_execute(pipex, pipex->ncmd);
 }

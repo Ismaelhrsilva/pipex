@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/10 17:20:51 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 18:05:07 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ void	ft_pipex(t_pipex *pipex)
 		else if (pipex->pid == 0 && pipex->ncmd == pipex->argc)
 			child(pipex, OUTFILE);
 		else if (pipex->pid == 0)
-		{
-			ft_printf("%d\n", pipex->ncmd);
 			child(pipex, MIDFILE);
-		}
 		if (pipex->ncmd > 2)
 			close_fds(pipex->fds[pipex->ncmd - 3]);
 	}
@@ -47,11 +44,11 @@ int	main(int argc, char **argv, char **envp)
 	if (argc < 5)
 		ft_error(pipex, "Pipex: " ,"Expected more than 5 arguments", 1);
 	pipex->envp = envp;
+	pipex->outf = argv[argc - 1];
+	pipex->ncmd = 1;
 	pipex->argv = argv;
 	pipex->argc = argc - 2;
 	pipex->inf = argv[1];
-	pipex->outf = argv[argc];
-	pipex->ncmd = 1;
 	construct_fds(pipex);
 	ft_pipex(pipex);
 	return (0);
