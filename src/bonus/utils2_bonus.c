@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/10 14:26:18 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 14:58:13 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	construct_fds(t_pipex *pipex)
 	int	i;
 
 	i = 0;
-	pipex -> fds = ft_calloc(pipex->argc - 3, sizeof(int **));
+	pipex -> fds = (int **) ft_calloc(pipex->argc, sizeof(int **));
 	if (!(pipex->fds))
 		ft_error(pipex, "fds", "Failed to allocate memory", 1);
-	while (i < pipex->argc - 3)
+	while (i < pipex->argc - 1)
 	{
-		pipex->fds[i] = ft_calloc(2, sizeof(int));
+		pipex->fds[i] = (int *) ft_calloc(2, sizeof(int));
 		if (!(pipex->fds[i++]))
 			ft_error(pipex, "fd", "Failed to allocate memory", 1);
 	}
