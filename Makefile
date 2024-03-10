@@ -6,12 +6,12 @@
 #    By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/11 20:08:54 by ishenriq          #+#    #+#              #
-#    Updated: 2024/03/10 18:28:46 by ishenriq         ###   ########.fr        #
+#    Updated: 2024/03/10 18:32:23 by ishenriq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= pipex
-#NAME_BONUS = pipex_bonus
+NAME_BONUS = pipex_bonus
 CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast -g3 -O3
 CC	:= cc
 PRINTF	:= lib/printf/
@@ -33,7 +33,7 @@ OBJS	+=  $(SRCS:%.c=$(BUILD_DIR)%.o)
 OBJS_BONUS      += $(SRCS_BONUS:%.c=$(BUILD_DIR)%.o)
 
 ifdef   WITH_BONUS
-        #NAME = $(NAME_BONUS)
+        NAME = $(NAME_BONUS)
         OBJS = $(OBJS_BONUS)
 endif
 
