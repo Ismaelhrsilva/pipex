@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/10 11:22:14 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 17:24:24 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	get_cmd(t_pipex *pipex)
 {
 	char	*cd;
 
-	cd = ft_strdup(pipex->argv[pipex->ncmd + 2]);
+	cd = ft_strdup(pipex->argv[pipex->ncmd - 1]);
 	pipex->cmd_argv = ft_split_quote(cd);
 	free(cd);
 }

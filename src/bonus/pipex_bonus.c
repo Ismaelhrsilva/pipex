@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/10 15:05:03 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 17:20:51 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,27 @@
 
 void	ft_pipex(t_pipex *pipex)
 {
-	while (pipex->ncmd < pipex->argc - 3)
+	while (pipex->ncmd++ < pipex->argc)
 	{
-		ft_printf("%p\n", pipex->fds[pipex->ncmd]);
-		if (pipe(pipex->fds[pipex->ncmd]) == -1)
+		ft_printf("%d\n", pipex->ncmd);
+		if (pipe(pipex->fds[pipex->ncmd - 2]) == -1)
 			ft_error(pipex, "Pipe", strerror(errno), 1);
 		pipex->pid = fork();
 		if (pipex->pid == -1)
 			ft_error(pipex, "Fork", strerror(errno), 1);
-		if (pipex->pid == 0 && pipex->ncmd == 0)
+		if (pipex->pid == 0 && pipex->ncmd == 2)
 			child(pipex, INFILE);
-		else if (pipex->pid == 0 && pipex->ncmd == pipex->argc - 2)
+		else if (pipex->pid == 0 && pipex->ncmd == pipex->argc)
 			child(pipex, OUTFILE);
 		else if (pipex->pid == 0)
+		{
+			ft_printf("%d\n", pipex->ncmd);
 			child(pipex, MIDFILE);
-		if (pipex->ncmd >= 1)
-			close_fds(pipex->fds[pipex->ncmd - 1]);
-		pipex->ncmd++;
+		}
+		if (pipex->ncmd > 2)
+			close_fds(pipex->fds[pipex->ncmd - 3]);
 	}
-	close_fds(pipex->fds[pipex->ncmd - 1]);
+	close_fds(pipex->fds[pipex->ncmd - 3]);
 	if (pipex->pid > 0)
 		ft_exit(pipex);
 }
@@ -46,9 +48,10 @@ int	main(int argc, char **argv, char **envp)
 		ft_error(pipex, "Pipex: " ,"Expected more than 5 arguments", 1);
 	pipex->envp = envp;
 	pipex->argv = argv;
-	pipex->argc = argc;
+	pipex->argc = argc - 2;
 	pipex->inf = argv[1];
-	pipex->outf = argv[argc - 1];
+	pipex->outf = argv[argc];
+	pipex->ncmd = 1;
 	construct_fds(pipex);
 	ft_pipex(pipex);
 	return (0);
