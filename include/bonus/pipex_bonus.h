@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:25:14 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/08 17:24:55 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 11:22:16 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 # include <fcntl.h>      // open, close
 # include <unistd.h>     // read, close, dup2, execve, fork, pipe, waitpid
@@ -26,20 +26,18 @@
 # include "../lib/printf/ft_printf.h"
 # include "../lib/libft/gnl/get_next_line.h"
 
-typedef enum e_nodetype
+enum e_pipe
 {
-	NODE_CMD = 0,
-	NODE_PIPE
-}	t_nodetype;
+	PIPE_OUT,
+	PIPE_IN
+};
 
-typedef struct s_node
+enum e_signal
 {
-	t_nodetype		type;
-	int				t;
-	char			**args;
-	struct s_node	*left;
-	struct s_node	*right;
-}	t_node;
+	INFILE,
+	OUTFILE,
+	MIDFILE
+};
 
 typedef struct s_pipex
 {
@@ -47,33 +45,36 @@ typedef struct s_pipex
 	char	**argv;
 	char	**envp;
 	char	*path;
-	char	*filename[2];
-	int		type_filename[2];
-	char	**cmd1_argv;
-	char	**cmd2_argv;
+
+	int		type_filename;
+	char	*filename;
+
+	int		ncmd;
+	char	**cmd_argv;
+	
+	int		**fds;
 	int		pipe_fd[2];
-	pid_t	pid_left;
 	int		infile;
 	int		outfile;
-	t_node	*cmd1;
-	t_node	*cmd2;
-	t_node	*pipenode;
+
+	pid_t	pid;
 	int		status;
+
 }	t_pipex;
 
-t_node	*create_cmd_node(char **args, int t);
-t_node	*create_pipe_node(t_pipex *pipex);
-void	free_ast(t_node *root);
 void	*init_pipex(void);
-void	left_child(t_pipex *pipex);
-void	right_child(t_pipex *pipex);
+void	child(t_pipex *pipex, int typefile);
+void	open_file(t_pipex *pipex, int typefile);
+void	open_dup(t_pipex *pipex);
+void	ft_execute(t_pipex *pipex, int cmd);
 void	ft_error(t_pipex *pipex, char *exec, char *message, int status);
 void	get_cmd(t_pipex *pipex);
-void	ft_envp(t_pipex *pipex, char *exec, int cmd);
-void	get_filename(t_pipex *pipex, char **split, char *exec, int cmd);
+void	ft_envp(t_pipex *pipex, char *exec);
+void	get_filename(t_pipex *pipex, char **split, char *exec);
 void	erase(t_pipex *pipex);
 void	close_and_end(t_pipex *pipex);
-void	ft_ast(t_node *root, t_pipex *pipex);
+void	ft_pipex(t_pipex *pipex);
 void	ft_exit(t_pipex *pipex);
+void	construct_fds(t_pipex *pipex);
 
 #endif

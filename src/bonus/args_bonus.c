@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args.c                                             :+:      :+:    :+:   */
+/*   args_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/08 13:00:47 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 11:22:14 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mandatory/pipex.h"
+#include "bonus/pipex_bonus.h"
 
-static int	type_of_cmd(t_pipex *pipex, char *exec, int cmd)
+static int	type_of_cmd(t_pipex *pipex, char *exec)
 {
 	if (exec && ft_strncmp(exec, "/", 1) == 0)
 	{
 		if (access(exec, F_OK | X_OK) == 0)
 		{
-			pipex->type_filename[cmd] = 1;
-			pipex->filename[cmd] = exec;
+			pipex->type_filename = 1;
+			pipex->filename = exec;
 			return (0);
 		}
 		else
@@ -45,7 +45,7 @@ static void	free_split(char **split)
 	}
 }
 
-void	get_filename(t_pipex *pipex, char **split, char *exec, int cmd)
+void	get_filename(t_pipex *pipex, char **split, char *exec)
 {
 	char	*f_bar;
 	char	*filename_access;
@@ -58,8 +58,8 @@ void	get_filename(t_pipex *pipex, char **split, char *exec, int cmd)
 		filename_access = ft_strjoin(f_bar, exec);
 		if (filename_access && access(filename_access, F_OK | X_OK) == 0)
 		{
-			pipex->type_filename[cmd] = 0;
-			pipex->filename[cmd] = filename_access;
+			pipex->type_filename = 0;
+			pipex->filename = filename_access;
 			free(f_bar);
 			break ;
 		}
@@ -73,13 +73,13 @@ void	get_filename(t_pipex *pipex, char **split, char *exec, int cmd)
 	free_split(split);
 }
 
-void	ft_envp(t_pipex *pipex, char *exec, int cmd)
+void	ft_envp(t_pipex *pipex, char *exec)
 {
 	int		i;
 	char	**split;
 
 	i = 0;
-	if (type_of_cmd(pipex, exec, cmd))
+	if (type_of_cmd(pipex, exec))
 	{
 		while (pipex->envp[i] != NULL)
 		{
@@ -93,19 +93,15 @@ void	ft_envp(t_pipex *pipex, char *exec, int cmd)
 		}
 		i = 0;
 		split = ft_split(pipex->path, ':');
-		get_filename(pipex, split, exec, cmd);
+		get_filename(pipex, split, exec);
 	}
 }
 
 void	get_cmd(t_pipex *pipex)
 {
-	char	*cd1;
-	char	*cd2;
+	char	*cd;
 
-	cd1 = ft_strdup(pipex->argv[2]);
-	cd2 = ft_strdup(pipex->argv[3]);
-	pipex->cmd1_argv = ft_split_quote(cd1);
-	pipex->cmd2_argv = ft_split_quote(cd2);
-	free(cd1);
-	free(cd2);
+	cd = ft_strdup(pipex->argv[pipex->ncmd + 2]);
+	pipex->cmd_argv = ft_split_quote(cd);
+	free(cd);
 }

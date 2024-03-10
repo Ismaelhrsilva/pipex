@@ -1,53 +1,109 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   childs.c                                           :+:      :+:    :+:   */
+/*   childs_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/08 13:33:36 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 11:22:10 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mandatory/pipex.h"
+#include "bonus/pipex_bonus.h"
 
-void	left_child(t_pipex *pipex)
+
+void	child(t_pipex *pipex, int typefile)
 {
-	close(pipex->pipe_fd[0]);
-	pipex->infile = open(pipex->argv[1], O_RDONLY);
-	if (pipex->infile == -1)
-		ft_error(pipex, pipex->argv[1], strerror(errno), 1);
-	if (dup2(pipex->infile, STDIN_FILENO) == -1)
-	{
-		perror("dup2");
-		exit(EXIT_FAILURE);
-	}
-	if (dup2(pipex->pipe_fd[1], STDOUT_FILENO) == -1)
-	{
-		perror("dup2");
-		exit(EXIT_FAILURE);
-	}
-	close(pipex->pipe_fd[1]);
-	close(pipex->infile);
+	open_file(pipex, pipex->typefile);
+	ft_envp(pipex, pipex->cmd_argv[pipex->ncmd + 2]);
+	get_cmd(pipex);
+	ft_execute_node(pipex, pipex->ncmd + 2);
 }
 
-void	right_child(t_pipex *pipex)
+void	open_dup(t_pipex *pipex)
 {
-	close(pipex->pipe_fd[1]);
-	pipex->outfile = open(pipex->argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0666);
-	if (pipex->outfile == -1)
-		ft_error(pipex, pipex->argv[4], strerror(errno), 1);
-	if (dup2(pipex->pipe_fd[0], STDIN_FILENO) == -1)
+	if (pipex->typefile == INFILE)
 	{
-		perror("dup2");
-		exit(EXIT_FAILURE);
+		open_file(pipex, pipex->typefile);
+		if (dup2(pipex->pipe_fd[PIPE_IN], STDOUT_FILENO) == -1)
+			ft_error(pipex, "dup2", strerror(errno), 1);
+		close(pipex->pipe_fd[PIPE_IN]]);
+		if (dup2(pipex->fds[x], STDIN_FILENO) == -1)
+			ft_error(pipex, "dup2", strerror(errno), 1);
+		close(pipex->fds[x]);
 	}
-	if (dup2(pipex->outfile, STDOUT_FILENO) == -1)
+	else if (pipex->typefile == OUTFILE)
 	{
-		perror("dup2");
-		exit(EXIT_FAILURE);
+		open_file(pipex, pipex->typefile);
+		if (dup2(pipex->fds[PIPE_OUT], STDIN_FILENO) == -1)
+			ft_error(pipex, "dup2", strerror(errno), 1);
+		close(pipex->fds[PIPE_OUT]);
+		if (dup2(pipex->fds[x], STDOUT_FILENO) == -1)
+			ft_error(pipex, "dup2", strerror(errno), 1);
+		close(pipex->fds[x]);
 	}
-	close(pipex->pipe_fd[0]);
-	close(pipex->outfile);
+	else
+	{
+		open_file(pipex, pipex->typefile);
+		if (dup2(pipex->fds[PIPE_OUT], STDIN_FILENO) == -1)
+			ft_error(pipex, "dup2", strerror(errno), 1);
+		close(pipex->fds[PIPE_OUT]);
+		if (dup2(pipex->fds[x][PIPE_IN], STDOUT_FILENO) == -1)
+			ft_error(pipex, "dup2", strerror(errno), 1);
+		close(pipex->fds[x]);
+	}
+}
+
+void	open_file(t_pipex *pipex, int typefile)
+{
+	if (typefile == INFILE)
+	{
+		pipex->fds[x] = open(pipex->infile, O_RDONLY, 0644);
+		if (pipex->fds[x] < 0)
+		{
+			close(pipex->pipe_fd[x][0]);
+			ft_error(pipex, pipex->infile, strerror(errno), 1);
+		}
+	}
+	else if (typefile == MIDFILE)
+	{
+		return ;
+	}
+	else
+	{
+		pipex->fds[x] = open(pipex->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+		if (pipex->fds[x] < 0)
+		{
+			//close_fds
+			ft_error(pipex, pipex->infile, strerror(errno), 1);
+		}
+	}
+}
+
+void	ft_execute(t_pipex *pipex, int cmd)
+{
+	int	fd;
+
+	if (pipex->cmd_argv[0])
+	{
+		fd = open(pipex->cmd_argv[0], O_DIRECTORY | O_RDONLY, 0644);
+		if (fd != -1)
+		{
+			close(fd);
+			if (pipex->cmd_argv[0] && ft_strchr(pipex->cmd_argv[0], '/'))
+				ft_error(pipex, pipex->cmd_argv[0], "Is a directory", 126);
+			ft_error(pipex, pipex->cmd_argv[0], "command not found", 127);
+		}
+	}
+	if (pipex->filename && access(pipex->filename, F_OK | X_OK) == 0 \
+	&& execve(pipex->filename, pipex->cmd_argv, pipex->envp) < 0)
+		ft_error(pipex, pipex->argv[cmd], strerror(errno), 127);
+	if (pipex->cmd_argv[0] && access(pipex->cmd_argv[0], F_OK) == 0)
+		if (execve(pipex->cmd_argv[0], pipex->cmd_argv, pipex->envp) < 0)
+			ft_error(pipex, pipex->argv[cmd], strerror(errno), 126);
+	if (pipex->cmd_argv[0] && pipex->cmd_argv[0][0] == '/')
+		ft_error(pipex, pipex->cmd_argv[0],
+			"No such file or directory", 127);
+	ft_error(pipex, pipex->argv[cmd], "command not found", 127);
 }
