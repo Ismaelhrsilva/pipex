@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/10 11:13:23 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 12:58:34 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	ft_pipex(t_pipex *pipex)
 			child(pipex, OUTFILE);
 		else if (pipex->pid == 0)
 			child(pipex, MIDFILE);
+		if (pipex->ncmd >= 1)
+		close_fds(pipex->fds[pipex->ncmd - 1]);
 		pipex->ncmd++;
 		if (pipex->pid_left > 0)
 			ft_exit(pipex);

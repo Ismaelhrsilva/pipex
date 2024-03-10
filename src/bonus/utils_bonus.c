@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/10 11:03:05 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 13:00:08 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,10 @@ void	ft_error(t_pipex *pipex, char *exec, char *message, int status)
 
 void	close_and_end(t_pipex *pipex)
 {
-	if (pipex->pipenode)
-	{
-		if (!pipex->type_filename[0] && pipex->filename[0])
-			free(pipex->filename[0]);
-		if (!pipex->type_filename[1] && pipex->filename[1])
-			free(pipex->filename[1]);
-		close(pipex->pipe_fd[0]);
-		close(pipex->pipe_fd[1]);
-		erase(pipex);
-		free_ast(pipex->pipenode);
-	}
+	if (!pipex->type_filename && pipex->filename)
+		free(pipex->filename);
+	close(pipex->fds[ncmd]);
+	erase(pipex);
 }
 
 void	erase(t_pipex *pipex)
@@ -59,27 +52,20 @@ void	erase(t_pipex *pipex)
 	int	i;
 
 	i = 0;
-	while (pipex->cmd1_argv[i] != NULL)
+	while (pipex->cmd_argv[i] != NULL)
 	{
-		free(pipex->cmd1_argv[i]);
+		free(pipex->cmd_argv[i]);
 		i++;
 	}
-	if (pipex->cmd1_argv)
-		free(pipex->cmd1_argv);
+	if (pipex->cmd_argv)
+		free(pipex->cmd_argv);
 	i = 0;
-	while (pipex->cmd2_argv[i] != NULL)
-	{
-		free(pipex->cmd2_argv[i]);
-		i++;
-	}
-	if (pipex->cmd2_argv)
-		free(pipex->cmd2_argv);
 }
 
 void	ft_exit(t_pipex *pipex)
 {
 	close_and_end(pipex);
-	waitpid(pipex->pid_left, &pipex->status, 0);
+	waitpid(pipex->pid, &pipex->status, 0);
 	if (WIFEXITED(pipex->status))
 		exit(WEXITSTATUS(pipex->status));
 	exit(pipex->status);
