@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/10 13:33:19 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 13:59:38 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_pipex(t_pipex *pipex)
 			ft_error(pipex, "Fork", strerror(errno), 1);
 		if (pipex->pid == 0 && pipex->ncmd == 0)
 			child(pipex, INFILE);
-		else if (pipex->pid == 0 && pipex->ncmd == pipex->argc)
+		else if (pipex->pid == 0 && pipex->ncmd == pipex->argc -2)
 			child(pipex, OUTFILE);
 		else if (pipex->pid == 0)
 			child(pipex, MIDFILE);

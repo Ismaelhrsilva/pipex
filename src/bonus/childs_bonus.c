@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/10 13:32:20 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 14:02:31 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	child(t_pipex *pipex, int typefile)
 {
-	open_file(pipex, typefile);
+	open_dup(pipex, typefile);
 	get_cmd(pipex);
 	ft_envp(pipex, pipex->cmd_argv[0]);
 	ft_execute(pipex, pipex->ncmd + 2);
@@ -64,7 +64,7 @@ void	open_file(t_pipex *pipex, int typefile)
 		pipex->infile = open(pipex->inf, O_RDONLY, 0644);
 		if (pipex->infile < 0)
 		{
-			//close_fds(pipex->fds[pipex->ncmd]);
+			close_fds(pipex->fds[pipex->ncmd]);
 			ft_error(pipex, pipex->inf, strerror(errno), 1);
 		}
 	}
