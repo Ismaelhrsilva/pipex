@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/10 14:02:31 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 14:34:10 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void	open_dup(t_pipex *pipex, int typefile)
 	else if (typefile == OUTFILE)
 	{
 		open_file(pipex, typefile);
-		close(pipex->fds[pipex->ncmd][WRITE]);
-		if (dup2(pipex->fds[pipex->ncmd][READ], STDIN_FILENO) == -1)
+		close(pipex->fds[pipex->ncmd - 1][WRITE]);
+		if (dup2(pipex->fds[pipex->ncmd -1][READ], STDIN_FILENO) == -1)
 			ft_error(pipex, "dup2", strerror(errno), 1);
-		close(pipex->fds[pipex->ncmd][READ]);
+		close(pipex->fds[pipex->ncmd -1][READ]);
 		if (dup2(pipex->outfile, STDOUT_FILENO) == -1)
 			ft_error(pipex, "dup2", strerror(errno), 1);
 		close(pipex->outfile);

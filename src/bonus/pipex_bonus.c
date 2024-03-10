@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/10 13:59:38 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 14:32:37 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,24 @@ void	ft_pipex(t_pipex *pipex)
 {
 	while (pipex->ncmd < pipex->argc)
 	{
-		if (pipe(pipex->fds[pipex->ncmd]))
+		if (pipe(pipex->fds[pipex->ncmd]) < 0)
 			ft_error(pipex, "Pipe", strerror(errno), 1);
 		pipex->pid = fork();
 		if (pipex->pid == -1)
 			ft_error(pipex, "Fork", strerror(errno), 1);
 		if (pipex->pid == 0 && pipex->ncmd == 0)
 			child(pipex, INFILE);
-		else if (pipex->pid == 0 && pipex->ncmd == pipex->argc -2)
+		else if (pipex->pid == 0 && pipex->ncmd == pipex->argc - 2)
 			child(pipex, OUTFILE);
 		else if (pipex->pid == 0)
 			child(pipex, MIDFILE);
 		if (pipex->ncmd >= 1)
 			close_fds(pipex->fds[pipex->ncmd - 1]);
 		pipex->ncmd++;
-		if (pipex->pid > 0)
-			ft_exit(pipex);
 	}
+	close_fds(pipex->fds[pipex->ncmd - 1]);
+	if (pipex->pid > 0)
+		ft_exit(pipex);
 }
 
 int	main(int argc, char **argv, char **envp)
