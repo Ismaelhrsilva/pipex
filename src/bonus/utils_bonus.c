@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/10 13:02:01 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 13:34:12 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,13 @@ void	erase(t_pipex *pipex)
 	int	i;
 
 	i = 0;
-	while (pipex->cmd_argv[i] != NULL)
+	/*while (pipex->cmd_argv[i] != NULL)
 	{
 		free(pipex->cmd_argv[i]);
 		i++;
-	}
+	}*/
 	if (pipex->cmd_argv)
 		free(pipex->cmd_argv);
-	i = 0;
 }
 
 void	ft_exit(t_pipex *pipex)
