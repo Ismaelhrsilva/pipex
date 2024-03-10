@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/08 17:25:02 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/08 19:29:40 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,11 @@ int	main(int argc, char **argv, char **envp)
 	t_pipex	*pipex;
 
 	pipex = init_pipex();
-	if (argc != 5)
-		ft_error(pipex, "Expected",
-			"./pipex <infile> <cmd1> <cmd2> <oufile>", 1);
+	if (argc < 5)
+		ft_error(pipex, "Expected more than 5 arguments",
 	pipex->envp = envp;
 	pipex->argv = argv;
+	pipex->argc = argc;
 	get_cmd(pipex);
 	ft_envp(pipex, pipex->cmd1_argv[0], 0);
 	ft_envp(pipex, pipex->cmd2_argv[0], 1);
