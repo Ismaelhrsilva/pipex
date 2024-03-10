@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/10 18:05:07 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 18:22:40 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	ft_pipex(t_pipex *pipex)
 {
 	while (pipex->ncmd++ < pipex->argc)
 	{
-		ft_printf("%d\n", pipex->ncmd);
 		if (pipe(pipex->fds[pipex->ncmd - 2]) == -1)
 			ft_error(pipex, "Pipe", strerror(errno), 1);
 		pipex->pid = fork();
