@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/10 11:03:06 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 12:44:45 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,13 @@ void	construct_fds(t_pipex *pipex)
 		if (!(pipex -> fds[i++]))
 			ft_error(pipex, "fd", "Failed to allocate memory", 1);
 	}
+}
+
+void	close_fds(int fds[])
+{
+	if (!fds)
+		return ;
+	close(fds[WRITE]);
+	close(fds[READ]);
+	fds = 0;
 }

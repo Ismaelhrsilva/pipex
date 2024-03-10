@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:25:14 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/10 11:22:16 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/10 12:44:57 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 
 enum e_pipe
 {
-	PIPE_OUT,
-	PIPE_IN
+	READ,
+	WRITE
 };
 
 enum e_signal
@@ -53,7 +53,7 @@ typedef struct s_pipex
 	char	**cmd_argv;
 	
 	int		**fds;
-	int		pipe_fd[2];
+	//int		pipe_fd[2];
 	int		infile;
 	int		outfile;
 
@@ -76,5 +76,6 @@ void	close_and_end(t_pipex *pipex);
 void	ft_pipex(t_pipex *pipex);
 void	ft_exit(t_pipex *pipex);
 void	construct_fds(t_pipex *pipex);
+void	close_fds(int fds[]);
 
 #endif
