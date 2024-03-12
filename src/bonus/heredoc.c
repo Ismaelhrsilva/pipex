@@ -6,13 +6,13 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/12 17:32:06 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/12 17:33:56 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus/pipex_bonus.h"
 
-void	ft_heredoc(t_pipex *pipex)
+char	*ft_heredoc(t_pipex *pipex)
 {
 	char	*gnl;
 	int		size;
@@ -25,7 +25,7 @@ void	ft_heredoc(t_pipex *pipex)
 		ft_printf("> ");
 		gnl = get_next_line(STDIN_FILENO);
 		size = ft_strlen(gnl) - 1;
-		if (gnl && !ft_strncmp(gnl, pipex->argv[2], size));
+		if (gnl && !ft_strncmp(gnl, pipex->argv[2], size))
 			break ;
 		ft_putstr_fd(gnl, pipex->infile);
 		free(gnl);
