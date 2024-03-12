@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:25:14 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/12 17:33:49 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/12 17:43:20 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_pipex
 	char	**argv;
 	char	**envp;
 	char	*path;
+	int		flag;
 
 	int		type_filename;
 	char	*filename;

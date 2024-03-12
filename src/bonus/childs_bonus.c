@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/12 17:32:07 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/12 17:43:23 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	open_file(t_pipex *pipex, int typefile)
 	}
 	else
 	{
-		pipex->outfile = open(pipex->outf, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+		pipex->outfile = open(pipex->outf, O_WRONLY | O_CREAT | pipex->flag, 0666);
 		if (pipex->outfile < 0)
 		{
 			close_fds(pipex->fds[pipex->ncmd - 2]);
