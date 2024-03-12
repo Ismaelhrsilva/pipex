@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:25:14 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/12 17:43:20 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/12 18:26:08 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include "../lib/libft/gnl/get_next_line.h"
 
 #define HEREDOC "here_doc"
-#define TEMP "/temp/heredoc"
+#define TEMP "/tmp/heredoc"
 
 enum e_pipe
 {
@@ -49,19 +49,15 @@ typedef struct s_pipex
 	char	**envp;
 	char	*path;
 	int		flag;
-
 	int		type_filename;
 	char	*filename;
-
 	int		ncmd;
 	char	**cmd_argv;
-	
 	int		**fds;
 	int		infile;
 	int		outfile;
 	char	*inf;
 	char	*outf;
-
 	pid_t	pid;
 	int		status;
 

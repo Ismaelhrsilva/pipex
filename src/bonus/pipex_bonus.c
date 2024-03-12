@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/12 17:44:52 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/12 18:16:14 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **envp)
 	pipex->inf = argv[1];
 	pipex->flag = O_TRUNC;
 	construct_fds(pipex);
-	if (!ft_strncmp(argv[1], HEREDOC, 9))
+	if (ft_strncmp(argv[1], HEREDOC, 9) == 0)
 		pipex->inf = ft_heredoc(pipex);
 	ft_pipex(pipex);
 	return (0);
