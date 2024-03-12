@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/12 17:44:51 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/03/12 18:30:39 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ char	*ft_heredoc(t_pipex *pipex)
 	pipex->argv++;
 	pipex->argc--;
 	pipex->flag = O_APPEND;
+	close(pipex->infile);
 	return (TEMP);
 }
