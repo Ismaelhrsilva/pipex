@@ -6,7 +6,7 @@
 #    By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/11 20:08:54 by ishenriq          #+#    #+#              #
-#    Updated: 2024/04/09 20:10:40 by ishenriq         ###   ########.fr        #
+#    Updated: 2024/04/21 16:25:49 by ishenriq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,16 +25,26 @@ LIBS 	:= -lm $(LIBFT)libft.a \
 
 LDFLAGS	:= $(HEADERS) $(LIBS)
 
-SRCS	= $(wildcard src/mandatory/*.c)
-SRCS_BONUS      = $(wildcard src/bonus/*.c)
+SRC = $(addprefix src/mandatory/, pipex.c \
+	   args.c \
+	   childs.c \
+	   ft_ast_utils.c \
+	   utils.c)
 
-OBJS	+=  $(SRCS:%.c=$(BUILD_DIR)%.o)
-OBJS_BONUS      += $(SRCS_BONUS:%.c=$(BUILD_DIR)%.o)
+SRC_BONUS = $(addprefix src/bonus/, pipex_bonus.c \
+	   args_bonus.c \
+	   childs_bonus.c \
+	   utils_bonus.c \
+	   utils2_bonus.c \
+	   heredoc_bonus.c)
+
+OBJS	+=  $(SRC:%.c=$(BUILD_DIR)%.o)
+OBJS_BONUS      += $(SRC_BONUS:%.c=$(BUILD_DIR)%.o)
 
 DELETE  = $(OBJS_BONUS)
 
 ifdef   WITH_BONUS
-        DELETE = $(OBJS)
+		DELETE = $(OBJS)
         OBJS = $(OBJS_BONUS)
 endif
 
@@ -64,7 +74,6 @@ $(NAME): $(OBJS)
 
 bonus:
 	$(call bonus)
-
 
 clean:
 	@rm -rf $(BUILD_DIR)
