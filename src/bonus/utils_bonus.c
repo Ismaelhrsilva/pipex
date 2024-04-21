@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/04/21 17:11:01 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/04/21 17:44:00 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	close_and_end(t_pipex *pipex)
 	if (!pipex->type_filename && pipex->filename)
 		free(pipex->filename);
 	erase(pipex);
+	free(pipex->fds);
 }
 
 void	erase(t_pipex *pipex)

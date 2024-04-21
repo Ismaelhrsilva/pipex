@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/10 17:25:52 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/04/21 17:42:17 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ void	close_fds(int fds[])
 		return ;
 	close(fds[WRITE]);
 	close(fds[READ]);
-	fds = 0;
+	free(fds);
+	//fds = 0;
 }

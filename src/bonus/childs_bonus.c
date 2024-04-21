@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/04/21 17:14:03 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/04/21 17:47:26 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,6 @@ void	open_dup(t_pipex *pipex, int typefile)
 	}
 	else if (typefile == MIDFILE)
 		open_dup_aux(pipex);
-	/*{
-		if (dup2(pipex->fds[pipex->ncmd - 3][READ], STDIN_FILENO) == -1)
-			ft_error(pipex, "dup2", strerror(errno), 1);
-		close_fds(pipex->fds[pipex->ncmd - 3]);
-		if (dup2(pipex->fds[pipex->ncmd - 2][WRITE], STDOUT_FILENO) == -1)
-			ft_error(pipex, "dup2", strerror(errno), 1);
-		close_fds(pipex->fds[pipex->ncmd - 2]);
-	}*/
 }
 
 void	child(t_pipex *pipex, int typefile)
