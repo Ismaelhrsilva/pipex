@@ -6,7 +6,7 @@
 #    By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/11 20:08:54 by ishenriq          #+#    #+#              #
-#    Updated: 2024/04/21 16:25:49 by ishenriq         ###   ########.fr        #
+#    Updated: 2024/04/21 17:23:25 by ishenriq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ OBJS_BONUS      += $(SRC_BONUS:%.c=$(BUILD_DIR)%.o)
 DELETE  = $(OBJS_BONUS)
 
 ifdef   WITH_BONUS
-		DELETE = $(OBJS)
+		DELETE := $(OBJS)
         OBJS = $(OBJS_BONUS)
 endif
 
@@ -90,7 +90,7 @@ re: clean all
 re_bonus: clean bonus
 
 norm:
-	norminette -R CheckForbiddenSourceHeader $(SRCS) ./include
+	norminette -R CheckForbiddenSourceHeader $(SRC) ./include
 
 .PHONY: all, clean, fclean, re, libft, printf, bonus
 .DEFAULT_GOAL := all

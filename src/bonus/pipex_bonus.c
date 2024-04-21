@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/12 18:16:14 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/04/21 17:10:03 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ int	main(int argc, char **argv, char **envp)
 	if (argv[1] && !ft_strncmp(argv[1], HEREDOC, 9))
 	{
 		if (argc < 6)
-			ft_error(pipex, "Pipex: " ,"Expected more than 5 arguments", 1);
+			ft_error(pipex, "Pipex: ", "Expected more than 5 arguments", 1);
 	}
 	else
 	{
 		if (argc < 5)
-			ft_error(pipex, "Pipex: " ,"Expected more than 5 arguments", 1);
+			ft_error(pipex, "Pipex: ", "Expected more than 5 arguments", 1);
 	}
 	pipex->envp = envp;
 	pipex->outf = argv[argc - 1];

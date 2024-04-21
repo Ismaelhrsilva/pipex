@@ -6,12 +6,11 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/03/12 18:27:24 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/04/21 17:14:03 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus/pipex_bonus.h"
-
 
 void	open_file(t_pipex *pipex, int typefile)
 {
@@ -30,7 +29,8 @@ void	open_file(t_pipex *pipex, int typefile)
 	}
 	else
 	{
-		pipex->outfile = open(pipex->outf, O_WRONLY | O_CREAT | pipex->flag, 0666);
+		pipex->outfile = open(pipex->outf, O_WRONLY
+				| O_CREAT | pipex->flag, 0666);
 		if (pipex->outfile < 0)
 		{
 			close_fds(pipex->fds[pipex->ncmd - 2]);
@@ -67,6 +67,16 @@ void	ft_execute(t_pipex *pipex, int cmd)
 	ft_error(pipex, pipex->argv[cmd], "command not found", 127);
 }
 
+static void	open_dup_aux(t_pipex *pipex)
+{
+	if (dup2(pipex->fds[pipex->ncmd - 3][READ], STDIN_FILENO) == -1)
+		ft_error(pipex, "dup2", strerror(errno), 1);
+	close_fds(pipex->fds[pipex->ncmd - 3]);
+	if (dup2(pipex->fds[pipex->ncmd - 2][WRITE], STDOUT_FILENO) == -1)
+		ft_error(pipex, "dup2", strerror(errno), 1);
+	close_fds(pipex->fds[pipex->ncmd - 2]);
+}
+
 void	open_dup(t_pipex *pipex, int typefile)
 {
 	if (typefile == INFILE)
@@ -92,14 +102,15 @@ void	open_dup(t_pipex *pipex, int typefile)
 		close(pipex->outfile);
 	}
 	else if (typefile == MIDFILE)
-	{
+		open_dup_aux(pipex);
+	/*{
 		if (dup2(pipex->fds[pipex->ncmd - 3][READ], STDIN_FILENO) == -1)
 			ft_error(pipex, "dup2", strerror(errno), 1);
 		close_fds(pipex->fds[pipex->ncmd - 3]);
 		if (dup2(pipex->fds[pipex->ncmd - 2][WRITE], STDOUT_FILENO) == -1)
 			ft_error(pipex, "dup2", strerror(errno), 1);
 		close_fds(pipex->fds[pipex->ncmd - 2]);
-	}
+	}*/
 }
 
 void	child(t_pipex *pipex, int typefile)
