@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/04/21 17:42:17 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/05/01 12:28:48 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,23 @@ void	close_fds(int fds[])
 		return ;
 	close(fds[WRITE]);
 	close(fds[READ]);
-	free(fds);
-	//fds = 0;
+	//free(fds);
 }
+
+void	kill_fds(t_pipex *pipex)
+{
+	int	i;
+
+	i = 0;
+	while (1)
+	{
+		if (pipex->fds[i])
+			free(pipex->fds[i]);
+		else
+			break ;
+		i++;
+	}
+	if (pipex->fds)
+		free(pipex->fds);
+}
+
