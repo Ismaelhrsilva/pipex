@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:25:14 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/05/01 12:27:56 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/05/01 14:36:12 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ void	construct_fds(t_pipex *pipex);
 void	close_fds(int fds[]);
 void	kill_fds(t_pipex *pipex);
 char	*ft_heredoc(t_pipex *pipex);
+void	turnoff_fds(void);
 
 #endif

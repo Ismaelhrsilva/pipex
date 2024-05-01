@@ -1,0 +1,16 @@
+total 116
+drwxr-xr-x  9 ishenriq candidate  4096 May  1 14:36 .
+drwxr-xr-x 14 ishenriq candidate  4096 Apr 13 11:21 ..
+-rw-r--r--  1 ishenriq candidate    42 Mar  4 18:15 file1
+-rw-r--r--  1 ishenriq candidate     0 May  1 14:36 file2
+-rw-r--r--  1 ishenriq candidate   456 Nov  6 19:31 .gdbinit
+drwxr-xr-x  8 ishenriq candidate  4096 May  1 14:00 .git
+drwxr-xr-x  4 ishenriq candidate  4096 Mar  8 17:28 include
+drwxr-xr-x  4 ishenriq candidate  4096 Feb 22 18:18 lib
+-rw-r--r--  1 ishenriq candidate  2400 Apr 21 17:23 Makefile
+drwxr-xr-x  3 ishenriq candidate  4096 May  1 11:28 objects
+-rwxr-xr-x  1 ishenriq candidate 58288 May  1 14:36 pipex
+drwxr-xr-x  8 ishenriq candidate  4096 Apr 21 15:20 pipex-tester
+drwxr-xr-x  4 ishenriq candidate  4096 Apr 10 17:21 pipextester
+drwxr-xr-x  4 ishenriq candidate  4096 Mar  8 17:28 src
+-rwxrwxrwx  1 ishenriq candidate  7402 Mar  3 19:17 tester.sh

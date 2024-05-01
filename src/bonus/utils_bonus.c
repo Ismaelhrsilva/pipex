@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/05/01 14:00:13 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/05/01 14:36:44 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	ft_error(t_pipex *pipex, char *exec, char *message, int status)
 		status = 127;
 	close_and_end(pipex);
 	erase(pipex);
+	turnoff_fds();
 	kill_fds(pipex);
 	exit(status);
 }
@@ -45,7 +46,6 @@ void	close_and_end(t_pipex *pipex)
 {
 	if (!pipex->type_filename && pipex->filename)
 		free(pipex->filename);
-	//free(pipex->fds);
 }
 
 void	erase(t_pipex *pipex)
@@ -68,6 +68,7 @@ void	erase(t_pipex *pipex)
 void	ft_exit(t_pipex *pipex)
 {
 	close_and_end(pipex);
+	turnoff_fds();
 	kill_fds(pipex);
 	waitpid(pipex->pid, &pipex->status, WUNTRACED);
 	if (WIFEXITED(pipex->status))
