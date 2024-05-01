@@ -6,7 +6,7 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 18:24:02 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/04/21 17:44:00 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/05/01 12:21:29 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	ft_error(t_pipex *pipex, char *exec, char *message, int status)
 	else if (status == ENOENT)
 		status = 127;
 	close_and_end(pipex);
+	erase(pipex);
 	exit(status);
 }
 
@@ -43,7 +44,6 @@ void	close_and_end(t_pipex *pipex)
 {
 	if (!pipex->type_filename && pipex->filename)
 		free(pipex->filename);
-	erase(pipex);
 	free(pipex->fds);
 }
 
@@ -52,6 +52,14 @@ void	erase(t_pipex *pipex)
 	int	i;
 
 	i = 0;
+	while (1)
+	{
+		if (pipex->cmd_argv[i])
+			free(pipex->cmd_argv[i]);
+		else
+			break ;
+		i++;
+	}
 	if (pipex->cmd_argv)
 		free(pipex->cmd_argv);
 }
